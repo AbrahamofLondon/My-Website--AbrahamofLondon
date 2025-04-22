@@ -1,0 +1,927 @@
+#!/bin/bash
+# AbrahamofLondon Superbrand Website Deployment Script
+# This script automates the setup and deployment of the AbrahamofLondon website
+
+set -e
+
+echo "=== AbrahamofLondon Website Deployment Script ==="
+echo "This script will set up a complete WordPress installation with all necessary plugins,"
+echo "themes, and configurations for the AbrahamofLondon superbrand website."
+echo ""
+
+# Check if Docker is installed
+if ! command -v docker &> /dev/null; then
+    echo "Docker is not installed. Installing Docker..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    sudo sh get-docker.sh
+    sudo usermod -aG docker $USER
+    echo "Docker installed. You may need to log out and back in for changes to take effect."
+fi
+
+# Check if Docker Compose is installed
+if ! command -v docker-compose &> /dev/null; then
+    echo "Docker Compose is not installed. Installing Docker Compose..."
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    echo "Docker Compose installed."
+fi
+
+# Create project directory
+mkdir -p abrahamoflondon
+cd abrahamoflondon
+
+# Create docker-compose.yml
+cat > docker-compose.yml << 'EOF'
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress_db_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress_password
+    networks:
+      - wordpress_network
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    ports:
+      - "8000:80"
+    restart: always
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./custom-theme:/var/www/html/wp-content/themes/abrahamoflondon
+      - ./custom-plugins:/var/www/html/wp-content/plugins
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress_password
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_MEMORY_LIMIT', '256M');
+        define('WP_MAX_MEMORY_LIMIT', '512M');
+    networks:
+      - wordpress_network
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: wordpress_db_password
+    networks:
+      - wordpress_network
+
+  redis:
+    image: redis:latest
+    restart: always
+    networks:
+      - wordpress_network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./wordpress:/var/www/html
+    depends_on:
+      - wordpress
+    networks:
+      - wordpress_network
+
+volumes:
+  db_data: {}
+
+networks:
+  wordpress_network:
+EOF
+
+# Create uploads.ini for PHP configuration
+cat > uploads.ini << 'EOF'
+file_uploads = On
+memory_limit = 256M
+upload_max_filesize = 64M
+post_max_size = 64M
+max_execution_time = 300
+EOF
+
+# Create directories
+mkdir -p custom-theme custom-plugins nginx/conf.d nginx/ssl
+
+# Create Nginx configuration
+cat > nginx/conf.d/default.conf << 'EOF'
+server {
+    listen 80;
+    server_name abrahamoflondon.com www.abrahamoflondon.com;
+    
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name abrahamoflondon.com www.abrahamoflondon.com;
+    
+    ssl_certificate /etc/nginx/ssl/abrahamoflondon.crt;
+    ssl_certificate_key /etc/nginx/ssl/abrahamoflondon.key;
+    
+    root /var/www/html;
+    index index.php;
+    
+    # WordPress permalinks
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+    
+    # Pass PHP scripts to FastCGI server
+    location ~ \.php$ {
+        fastcgi_pass wordpress:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+    
+    # Deny access to .htaccess files
+    location ~ /\.ht {
+        deny all;
+    }
+    
+    # Media: images, icons, video, audio, HTC
+    location ~* \.(jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ {
+        expires 1M;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+    
+    # CSS and JavaScript
+    location ~* \.(css|js)$ {
+        expires 1y;
+        access_log off;
+        add_header Cache-Control "public";
+    }
+}
+EOF
+
+# Create self-signed SSL certificates (for development)
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/ssl/abrahamoflondon.key -out nginx/ssl/abrahamoflondon.crt -subj "/CN=abrahamoflondon.com"
+
+# Create custom theme directory structure
+mkdir -p custom-theme/{inc,assets/{css,js,img},template-parts/{header,footer,content,sidebar}}
+
+# Create theme style.css
+cat > custom-theme/style.css << 'EOF'
+/*
+Theme Name: AbrahamofLondon
+Theme URI: https://abrahamoflondon.com
+Author: AbrahamofLondon Team
+Author URI: https://abrahamoflondon.com
+Description: Custom theme for AbrahamofLondon superbrand website
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: abrahamoflondon
+*/
+
+/* Theme styles will be loaded from compiled CSS files */
+EOF
+
+# Create theme functions.php
+cat > custom-theme/functions.php << 'EOF'
+<?php
+/**
+ * AbrahamofLondon Theme Functions
+ */
+
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly
+}
+
+// Theme setup
+function abrahamoflondon_setup() {
+    // Add theme support
+    add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_theme_support('custom-logo');
+    add_theme_support('html5', array('search-form', 'comment-form', 'comment-list', 'gallery', 'caption'));
+    add_theme_support('customize-selective-refresh-widgets');
+    add_theme_support('align-wide');
+    add_theme_support('responsive-embeds');
+    add_theme_support('woocommerce');
+    
+    // Register nav menus
+    register_nav_menus(array(
+        'primary' => esc_html__('Primary Menu', 'abrahamoflondon'),
+        'footer' => esc_html__('Footer Menu', 'abrahamoflondon'),
+    ));
+    
+    // Register custom post types
+    register_post_type('subbrands', array(
+        'labels' => array(
+            'name' => __('Sub-brands', 'abrahamoflondon'),
+            'singular_name' => __('Sub-brand', 'abrahamoflondon'),
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'show_in_rest' => true,
+        'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
+        'menu_icon' => 'dashicons-networking',
+        'rewrite' => array('slug' => 'sub-brands'),
+    ));
+}
+add_action('after_setup_theme', 'abrahamoflondon_setup');
+
+// Enqueue scripts and styles
+function abrahamoflondon_scripts() {
+    wp_enqueue_style('abrahamoflondon-style', get_stylesheet_uri(), array(), '1.0');
+    wp_enqueue_style('abrahamoflondon-main', get_template_directory_uri() . '/assets/css/main.css', array(), '1.0');
+    
+    wp_enqueue_script('abrahamoflondon-navigation', get_template_directory_uri() . '/assets/js/navigation.js', array(), '1.0', true);
+    wp_enqueue_script('abrahamoflondon-main', get_template_directory_uri() . '/assets/js/main.js', array('jquery'), '1.0', true);
+    
+    if (is_singular() && comments_open() && get_option('thread_comments')) {
+        wp_enqueue_script('comment-reply');
+    }
+}
+add_action('wp_enqueue_scripts', 'abrahamoflondon_scripts');
+
+// Include additional function files
+require get_template_directory() . '/inc/template-functions.php';
+require get_template_directory() . '/inc/customizer.php';
+require get_template_directory() . '/inc/widget-areas.php';
+
+// Register widget areas
+function abrahamoflondon_widgets_init() {
+    register_sidebar(array(
+        'name'          => esc_html__('Sidebar', 'abrahamoflondon'),
+        'id'            => 'sidebar-1',
+        'description'   => esc_html__('Add widgets here.', 'abrahamoflondon'),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ));
+    
+    register_sidebar(array(
+        'name'          => esc_html__('Footer Widgets', 'abrahamoflondon'),
+        'id'            => 'footer-widgets',
+        'description'   => esc_html__('Add footer widgets here.', 'abrahamoflondon'),
+        'before_widget' => '<div class="footer-widget"><section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section></div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ));
+}
+add_action('widgets_init', 'abrahamoflondon_widgets_init');
+
+// Add ACF JSON save point
+add_filter('acf/settings/save_json', function() {
+    return get_stylesheet_directory() . '/acf-json';
+});
+
+// Add ACF JSON load point
+add_filter('acf/settings/load_json', function($paths) {
+    $paths[] = get_stylesheet_directory() . '/acf-json';
+    return $paths;
+});
+
+// Custom image sizes
+add_image_size('subbrand-thumb', 600, 400, true);
+add_image_size('featured-large', 1200, 800, true);
+
+// Create custom taxonomy for content categories
+function abrahamoflondon_taxonomies() {
+    register_taxonomy(
+        'content_category',
+        array('post', 'subbrands'),
+        array(
+            'hierarchical' => true,
+            'labels' => array(
+                'name' => __('Content Categories', 'abrahamoflondon'),
+                'singular_name' => __('Content Category', 'abrahamoflondon'),
+            ),
+            'show_ui' => true,
+            'show_admin_column' => true,
+            'query_var' => true,
+            'rewrite' => array('slug' => 'content-category'),
+            'show_in_rest' => true,
+        )
+    );
+}
+add_action('init', 'abrahamoflondon_taxonomies');
+
+// Add sub-brand connection to posts
+function connect_posts_to_subbrands() {
+    if (function_exists('acf_add_local_field_group')) {
+        acf_add_local_field_group(array(
+            'key' => 'group_subbrand_connection',
+            'title' => 'Sub-brand Connection',
+            'fields' => array(
+                array(
+                    'key' => 'field_subbrand_relation',
+                    'label' => 'Related Sub-brand',
+                    'name' => 'related_subbrand',
+                    'type' => 'relationship',
+                    'instructions' => 'Connect this post to a sub-brand',
+                    'required' => 0,
+                    'post_type' => array('subbrands'),
+                    'multiple' => 0,
+                ),
+            ),
+            'location' => array(
+                array(
+                    array(
+                        'param' => 'post_type',
+                        'operator' => '==',
+                        'value' => 'post',
+                    ),
+                ),
+            ),
+        ));
+    }
+}
+add_action('acf/init', 'connect_posts_to_subbrands');
+
+// Create shortcode for displaying sub-brands
+function subbrand_grid_shortcode($atts) {
+    $atts = shortcode_atts(
+        array(
+            'count' => 4,
+        ),
+        $atts
+    );
+    
+    $query = new WP_Query(array(
+        'post_type' => 'subbrands',
+        'posts_per_page' => $atts['count'],
+    ));
+    
+    ob_start();
+    
+    if ($query->have_posts()) {
+        echo '<div class="subbrand-grid">';
+        while ($query->have_posts()) {
+            $query->the_post();
+            echo '<div class="subbrand-item">';
+            if (has_post_thumbnail()) {
+                echo '<div class="subbrand-image">';
+                the_post_thumbnail('subbrand-thumb');
+                echo '</div>';
+            }
+            echo '<h3 class="subbrand-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
+            echo '<div class="subbrand-excerpt">' . get_the_excerpt() . '</div>';
+            echo '<a href="' . get_permalink() . '" class="subbrand-link">Learn More</a>';
+            echo '</div>';
+        }
+        echo '</div>';
+    }
+    
+    wp_reset_postdata();
+    
+    return ob_get_clean();
+}
+add_shortcode('subbrand_grid', 'subbrand_grid_shortcode');
+EOF
+
+# Create template files
+cat > custom-theme/index.php << 'EOF'
+<?php get_header(); ?>
+
+<main id="primary" class="site-main">
+    <?php
+    if (have_posts()) :
+        while (have_posts()) :
+            the_post();
+            get_template_part('template-parts/content/content', get_post_type());
+        endwhile;
+        
+        the_posts_navigation();
+    else :
+        get_template_part('template-parts/content/content', 'none');
+    endif;
+    ?>
+</main>
+
+<?php
+get_sidebar();
+get_footer();
+EOF
+
+cat > custom-theme/header.php << 'EOF'
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <?php wp_head(); ?>
+</head>
+
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
+
+<div id="page" class="site">
+    <a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e('Skip to content', 'abrahamoflondon'); ?></a>
+
+    <header id="masthead" class="site-header">
+        <div class="site-branding">
+            <?php
+            the_custom_logo();
+            if (is_front_page() && is_home()) :
+                ?>
+                <h1 class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></h1>
+                <?php
+            else :
+                ?>
+                <p class="site-title"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"><?php bloginfo('name'); ?></a></p>
+                <?php
+            endif;
+            
+            $description = get_bloginfo('description', 'display');
+            if ($description || is_customize_preview()) :
+                ?>
+                <p class="site-description"><?php echo $description; ?></p>
+            <?php endif; ?>
+        </div>
+
+        <nav id="site-navigation" class="main-navigation">
+            <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
+                <?php esc_html_e('Menu', 'abrahamoflondon'); ?>
+            </button>
+            <?php
+            wp_nav_menu(
+                array(
+                    'theme_location' => 'primary',
+                    'menu_id'        => 'primary-menu',
+                )
+            );
+            ?>
+        </nav>
+    </header>
+EOF
+
+cat > custom-theme/footer.php << 'EOF'
+    <footer id="colophon" class="site-footer">
+        <div class="footer-widgets-container">
+            <?php if (is_active_sidebar('footer-widgets')) : ?>
+                <div class="footer-widgets">
+                    <?php dynamic_sidebar('footer-widgets'); ?>
+                </div>
+            <?php endif; ?>
+        </div>
+        
+        <div class="site-info">
+            <div class="copyright">
+                &copy; <?php echo date('Y'); ?> <a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a>
+            </div>
+            
+            <nav class="footer-navigation">
+                <?php
+                wp_nav_menu(
+                    array(
+                        'theme_location' => 'footer',
+                        'menu_id'        => 'footer-menu',
+                        'depth'          => 1,
+                    )
+                );
+                ?>
+            </nav>
+        </div>
+    </footer>
+</div><!-- #page -->
+
+<?php wp_footer(); ?>
+
+</body>
+</html>
+EOF
+
+# Create a basic template part for content
+mkdir -p custom-theme/template-parts/content
+cat > custom-theme/template-parts/content/content.php << 'EOF'
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+    <header class="entry-header">
+        <?php
+        if (is_singular()) :
+            the_title('<h1 class="entry-title">', '</h1>');
+        else :
+            the_title('<h2 class="entry-title"><a href="' . esc_url(get_permalink()) . '" rel="bookmark">', '</a></h2>');
+        endif;
+
+        if ('post' === get_post_type()) :
+            ?>
+            <div class="entry-meta">
+                <?php
+                $time_string = '<time class="entry-date published updated" datetime="%1$s">%2$s</time>';
+                if (get_the_time('U') !== get_the_modified_time('U')) {
+                    $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time><time class="updated" datetime="%3$s">%4$s</time>';
+                }
+
+                $time_string = sprintf(
+                    $time_string,
+                    esc_attr(get_the_date(DATE_W3C)),
+                    esc_html(get_the_date()),
+                    esc_attr(get_the_modified_date(DATE_W3C)),
+                    esc_html(get_the_modified_date())
+                );
+
+                echo '<span class="posted-on">' . $time_string . '</span>';
+                ?>
+            </div>
+        <?php endif; ?>
+    </header>
+
+    <?php if (has_post_thumbnail() && !is_singular()) : ?>
+        <div class="post-thumbnail">
+            <a href="<?php the_permalink(); ?>">
+                <?php the_post_thumbnail('large'); ?>
+            </a>
+        </div>
+    <?php endif; ?>
+
+    <div class="entry-content">
+        <?php
+        if (is_singular()) :
+            the_content();
+        else :
+            the_excerpt();
+            ?>
+            <a href="<?php the_permalink(); ?>" class="read-more-link">
+                <?php echo esc_html__('Read More', 'abrahamoflondon'); ?>
+            </a>
+            <?php
+        endif;
+        ?>
+    </div>
+
+    <footer class="entry-footer">
+        <?php
+        if ('post' === get_post_type()) {
+            $categories_list = get_the_category_list(', ');
+            if ($categories_list) {
+                echo '<span class="cat-links">' . $categories_list . '</span>';
+            }
+
+            $tags_list = get_the_tag_list('', ', ');
+            if ($tags_list) {
+                echo '<span class="tags-links">' . $tags_list . '</span>';
+            }
+        }
+        ?>
+    </footer>
+</article>
+EOF
+
+# Create CSS file
+mkdir -p custom-theme/assets/css
+cat > custom-theme/assets/css/main.css << 'EOF'
+/* Main CSS file for AbrahamofLondon theme */
+
+/* Base Styles */
+:root {
+    --color-primary: #003366;
+    --color-secondary: #006699;
+    --color-accent: #ff9900;
+    --color-text: #333333;
+    --color-background: #ffffff;
+    --font-primary: 'Montserrat', sans-serif;
+    --font-secondary: 'Merriweather', serif;
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--color-text);
+    line-height: 1.6;
+    background-color: var(--color-background);
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: var(--color-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    color: var(--color-primary);
+}
+
+/* Layout */
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.site-main {
+    flex: 1;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Header */
+.site-header {
+    background-color: var(--color-background);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    position: relative;
+}
+
+.site-branding {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.site-title {
+    font-size: 24px;
+    margin: 0;
+}
+
+.site-description {
+    font-size: 14px;
+    margin: 0;
+    color: #666;
+}
+
+/* Navigation */
+.main-navigation {
+    display: block;
+    width: 100%;
+}
+
+.main-navigation ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-navigation ul li {
+    position: relative;
+}
+
+.main-navigation ul li a {
+    display: block;
+    padding: 10px 15px;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+.main-navigation ul li a:hover {
+    color: var(--color-secondary);
+}
+
+.menu-toggle {
+    display: none;
+}
+
+/* Footer */
+.site-footer {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 40px 0 20px;
+}
+
+.footer-widgets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer-widget h3 {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.site-info {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-info a {
+    color: white;
+}
+
+.footer-navigation ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-navigation ul li {
+    margin-left: 15px;
+}
+
+/* Content */
+.entry-title {
+    margin-bottom: 0.5em;
+}
+
+.entry-meta {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 1em;
+}
+
+.post-thumbnail {
+    margin-bottom: 1.5em;
+}
+
+.post-thumbnail img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.entry-content {
+    margin-bottom: 1.5em;
+}
+
+.read-more-link {
+    display: inline-block;
+    background-color: var(--color-secondary);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.read-more-link:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Sub-brands */
+.subbrand-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.subbrand-item {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+.subbrand-item:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.subbrand-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.subbrand-title {
+    padding: 15px 15px 0;
+    margin-bottom: 10px;
+}
+
+.subbrand-excerpt {
+    padding: 0 15px;
+    font-size: 14px;
+}
+
+.subbrand-link {
+    display: inline-block;
+    margin: 15px;
+    padding: 8px 15px;
+    background-color: var(--color-secondary);
+    color: white;
+    border-radius: 3px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.subbrand-link:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+        background: none;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+    }
+    
+    .main-navigation ul {
+        display: none;
+        flex-direction: column;
+    }
+    
+    .main-navigation.toggled ul {
+        display: flex;
+    }
+    
+    .site-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-navigation ul {
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    .footer-navigation ul li {
+        margin: 0 8px;
+    }
+}
+EOF
+
+# Create JS file
+mkdir -p custom-theme/assets/js
+cat > custom-theme/assets/js/navigation.js << 'EOF'
+/**
+ * Navigation scripts
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navigation = document.querySelector('.main-navigation');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            navigation.classList.toggle('toggled');
+            const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+            menuToggle.setAttribute('aria-expanded', !expanded);
+        });
+    }
+    
+    // Handle dropdown menus
+    const dropdownToggles = document.querySelectorAll('.menu-item-has-children > a');
+    
+    dropdownToggles.forEach(function(toggle) {
+        toggle.addEventListener('click', function(e) {
+            if (window.innerWidth < 768) {
+                e.preventDefault();
+                const parent = this.parentNode;
+                parent.classList.toggle('submenu-open');
+            }
+        });
+    });
+});
+EOF
+
+cat > custom-theme/assets/js/main.js << 'EOF'
+/**
+ * Main site scripts
+ */
+(function($) {
+    'use strict';
+    
+    // Document ready
+    $(document).ready(function() {
+        // Smooth scroll for anchor links
+        $('a[href^="#"]').on('click', function(event) {
+            var target = $(this.getAttribute('href'));
+            if( target.length ) {
+                event
