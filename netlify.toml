@@ -1,0 +1,6 @@
+toml
+[build]
+  publish = "."
+  command = ""
+
+[[plugins]]
