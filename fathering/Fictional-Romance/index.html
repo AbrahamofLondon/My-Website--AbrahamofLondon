@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The River Between Stars - Spiritual Fantasy Romance</title>
+    <meta name="description" content="A tale of fire, faith, and forbidden love. When a boy who bleeds light meets a girl who speaks to shadows, an ancient bargain threatens to consume their world.">
+    
+    <!-- Open Graph tags for social sharing -->
+    <meta property="og:title" content="The River Between Stars">
+    <meta property="og:description" content="A spiritual fantasy romance where memories fade and love becomes the only anchor against oblivion.">
+    <meta property="og:type" content="book">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gold: #FFD700;
+            --deep-gold: #B8860B;
+            --shadow: #1a1a2e;
+            --river-blue: #16213e;
+            --mystic-purple: #3d5a80;
+            --text-light: #e0e0e0;
+            --accent-glow: rgba(255, 215, 0, 0.3);
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--shadow);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Navigation Breadcrumb */
+        .breadcrumb {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            opacity: 0.8;
+        }
+
+        .breadcrumb span {
+            margin: 0 0.5rem;
+            opacity: 0.6;
+        }
+
+        /* Book Header */
+        .book-header {
+            position: relative;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--river-blue) 0%, var(--mystic-purple) 100%);
+            overflow: hidden;
+        }
+
+        .book-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Book Cover */
+        .book-cover {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            aspect-ratio: 2/3;
+            background: linear-gradient(45deg, var(--deep-gold), var(--gold));
+            border-radius: 5px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .cover-text {
+            text-align: center;
+            padding: 2rem;
+            color: var(--shadow);
+        }
+
+        .cover-text h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .cover-text p {
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Book Info */
+        .book-info h1 {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .book-tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .book-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        .book-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .book-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: var(--shadow);
+            border: 2px solid var(--gold);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--gold);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Content Sections */
+        .book-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .main-content section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .excerpt-box {
+            background: var(--card-bg);
+            border-left: 3px solid var(--gold);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            height: fit-content;
+        }
+
+        .sidebar-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-card h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .detail-list {
+            list-style: none;
+        }
+
+        .detail-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        .detail-list li:last-child {
+            border-bottom: none;
+        }
+
+        .detail-list strong {
+            color: var(--gold);
+            display: inline-block;
+            width: 80px;
+        }
+
+        /* Characters Section */
+        .character-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .character-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 5px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .character-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.1);
+        }
+
+        .character-card h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Series Navigation */
+        .series-nav {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 5px;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .series-nav h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .related-books {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .header-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .book-cover {
+                margin: 0 auto;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .book-info h1 {
+                font-size: 2rem;
+            }
+
+            .book-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .book-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Breadcrumb -->
+    <nav class="breadcrumb">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/books">Books</a>
+        <span>/</span>
+        <a href="/books/romance">Romance</a>
+        <span>/</span>
+        <span style="color: var(--text-light);">The River Between Stars</span>
+    </nav>
+
+    <!-- Book Header -->
+    <header class="book-header">
+        <div class="header-content">
+            <div class="book-cover">
+                <div class="cover-text">
+                    <h2>The River Between Stars</h2>
+                    <p>A Spiritual Fantasy Romance</p>
+                </div>
+            </div>
+            <div class="book-info">
+                <h1>The River Between Stars</h1>
+                <p class="book-tagline">A Tale of Fire, Faith, and the Girl Who Knew His Name</p>
+                <div class="book-meta">
+                    <span>📚 Fantasy Romance</span>
+                    <span>📖 Stand-alone Novel</span>
+                    <span>🕒 Coming 2024</span>
+                </div>
+                <div class="book-actions">
+                    <a href="#excerpt" class="btn btn-primary">Read Excerpt</a>
+                    <a href="#" class="btn btn-secondary">Add to Wishlist</a>
+                    <a href="/books" class="btn btn-secondary">Browse More Books</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="book-content">
+        <div class="content-grid">
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <!-- Synopsis -->
+                <section>
+                    <h2 class="section-title">Synopsis</h2>
+                    <p>In a world where memories fade like morning mist and shadows whisper forgotten truths, two souls are bound by an ancient river's bargain.</p>
+                    
+                    <p><strong>Elion</strong> was born under a sky that bled fire, marked by a broken crown he cannot understand. He doesn't bleed red—he bleeds light, golden and shimmering, carrying the weight of time itself. Split across seven names he cannot remember, he wanders a kingdom slowly forgetting its own existence.</p>
+                    
+                    <p><strong>Saela</strong>, the girl they call Whisperwitch, has heard the voices of shadows since the day her twin sister died. She speaks to the darkness, and it answers—until the night she meets a boy whose very existence makes the shadows recoil in fear.</p>
+                    
+                    <div class="excerpt-box">
+                        "Take one child," she said, "and give me one who will live."<br>
+                        The river listened. It always did.
+                    </div>
+                    
+                    <p>As the Veil of forgetting spreads across the land, erasing names, faces, and entire histories, Elion and Saela must unravel the mystery of his fractured identity and her forbidden gift. Their growing love becomes both anchor and key—the only force strong enough to break a bargain made before time began.</p>
+                </section>
+
+                <!-- Excerpt -->
+                <section id="excerpt">
+                    <h2 class="section-title">Excerpt from Chapter One</h2>
+                    <div class="excerpt-box">
+                        <p>The night Elion was born, the sky bled flame—gold and crimson streaks tearing through the clouds as if Heaven itself had been ripped open. The elders called it a comet storm. The watchers called it prophecy.</p>
+                        
+                        <p>But to Mira, high priestess of the Ninth Moon and keeper of the River Oru, it was a debt being collected.</p>
+                        
+                        <p>"Elion," she whispered into the dark, naming a child not yet born. "Elion of the fire, son of the forgotten vow... may you never learn who you truly are."</p>
+                        
+                        <p>Because if he did—if he remembered what had been taken from him—the world might never survive it.</p>
+                    </div>
+                </section>
+
+                <!-- Characters -->
+                <section>
+                    <h2 class="section-title">Main Characters</h2>
+                    <div class="character-cards">
+                        <div class="character-card">
+                            <h4>Elion</h4>
+                            <p>Born under prophecy, marked by mystery. His blood carries the light of forgotten stars and the weight of seven lives he cannot remember.</p>
+                        </div>
+                        <div class="character-card">
+                            <h4>Saela</h4>
+                            <p>The Whisperwitch who speaks to shadows. Her gift is both blessing and curse, revealing truths that were meant to stay buried.</p>
+                        </div>
+                        <div class="character-card">
+                            <h4>The River Oru</h4>
+                            <p>Ancient beyond memory, it makes bargains and keeps debts. What it gives, it always claims back—with interest.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Themes -->
+                <section>
+                    <h2 class="section-title">Themes & Allegory</h2>
+                    <p>The River Between Stars weaves profound spiritual themes through its fantasy narrative:</p>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li><strong>Memory as Sacred:</strong> The power and responsibility of remembering in a world that forgets</li>
+                        <li><strong>Love as Anchor:</strong> How connection grounds us when everything else fades</li>
+                        <li><strong>The Price of Bargains:</strong> What we sacrifice for survival and whether any deal is truly worth it</li>
+                        <li><strong>Identity and Fragmentation:</strong> Finding wholeness when split across impossible choices</li>
+                        <li><strong>Faith in Darkness:</strong> Trusting what we cannot see, even when shadows speak louder than light</li>
+                    </ul>
+                </section>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Book Details -->
+                <div class="sidebar-card">
+                    <h3>Book Details</h3>
+                    <ul class="detail-list">
+                        <li><strong>Status:</strong> Coming Soon</li>
+                        <li><strong>Genre:</strong> Fantasy Romance</li>
+                        <li><strong>Length:</strong> ~90,000 words</li>
+                        <li><strong>Type:</strong> Stand-alone</li>
+                        <li><strong>Rating:</strong> Young Adult</li>
+                    </ul>
+                </div>
+
+                <!-- Purchase Options -->
+                <div class="sidebar-card">
+                    <h3>Get Notified</h3>
+                    <p style="margin-bottom: 1rem; font-size: 0.95rem;">Be the first to know when The River Between Stars is available.</p>
+                    <a href="#" class="btn btn-primary" style="width: 100%;">Join Waitlist</a>
+                </div>
+
+                <!-- Author Info -->
+                <div class="sidebar-card">
+                    <h3>About the Author</h3>
+                    <p style="font-size: 0.95rem;">Discover more spiritual fantasy romance and explore the complete collection of transformative fiction.</p>
+                    <a href="/about" style="color: var(--gold); text-decoration: none; font-size: 0.9rem;">Learn More →</a>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Series Navigation -->
+        <div class="series-nav">
+            <h3>Explore More Books</h3>
+            <p style="margin-bottom: 1.5rem;">Discover other stories of transformation and spiritual awakening</p>
+            <div class="related-books">
+                <a href="/books/romance" class="btn btn-secondary">All Romance</a>
+                <a href="/books/fantasy" class="btn btn-secondary">Fantasy Collection</a>
+                <a href="/books" class="btn btn-primary">Browse All Books</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                }
+            });
+        });
+
+        // Add subtle parallax to header on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.book-header');
+            if (header && scrolled < 500) {
+                header.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
