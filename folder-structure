@@ -1,14 +1,12 @@
-abraham-of-london/
-├── index.html         # Homepage
-├── memoir.html        # Memoir excerpt page
-├── styles.css         # All CSS for the site
-├── app.js             # JavaScript (e.g. dynamic footer year)
-├── sitemap.xml        # Sitemap for SEO
-├── assets/
-│   ├── images/        # All images (e.g. banner.webp, abraham-portrait.webp, etc.)
-│   └── favicon/
-│       └── favicon.ico
-├── downloads/
-│   ├── fathering-without-fear.epub
-│   └── fathering-without-fear.pdf
-└── README.md
+your-site/
+├── index.html                 (Current Abraham of London)
+├── styles.css                 (Current styles)
+├── assets/                    (Current images)
+├── fathering/
+│   ├── index.html            (Fathering main page)
+│   ├── memoir/
+│   │   └── index.html        (Memoir section)
+│   ├── blog/
+│   │   └── index.html        (Blog section)
+│   └── fiction/
+│       └── index.html        (Fiction section)
