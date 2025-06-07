@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#091c3b" />
+  <title>Fathering Without Fear | Memoir by Abraham of London</title>
+  <meta name="description" content="The official memoir of Abraham of London — a story of survival, fatherhood, faith, and strategic fire. Read the beginning of Fathering Without Fear." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content container">
+      <h1>Fathering Without Fear</h1>
+      <p class="tagline">A Memoir by Abraham of London</p>
+      <a href="index.html" class="btn-outline">← Back to Home</a>
+    </div>
+  </header>
+  <main class="section container">
+    <article>
+      <h2>Excerpt</h2>
+      <p>
+        “They thought they knew the story. But he lived what they only heard in whispers.”
+      </p>
+      <p>
+        From the dusty streets of Akure to the courtrooms of London, <strong>Fathering Without Fear</strong> tells the redemptive journey of Abraham of London — a man who refused to disappear. Born a miracle. Shaped by loss. Tested by betrayal. Refined by fire.
+      </p>
+      <p>
+        From miraculous triplet survival in 1977 Lagos to spiritual awakenings, political campaigns, and family collapse — this is not just a memoir. It’s a movement. A mirror. A map for fathers who won’t be erased.
+      </p>
+      <blockquote>
+        “This isn’t just a memoir. It’s a declaration. A story they thought they knew — and a father they’ll never forget.”
+      </blockquote>
+      <p><em>Full book available on request. Agent inquiries welcome.</em></p>
+    </article>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Abraham of London. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="app.js" defer></script>
+</body>
+</html>
