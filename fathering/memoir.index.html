@@ -165,7 +165,7 @@
       <p class="memoir-subtitle">
         Be the first to read new chapters and get exclusive insights.
       </p>
-      <form class="email-form">
+      <form class="email-form" action="/.netlify/functions/contact" method="POST">
         <input type="email" class="email-input" placeholder="Enter your email" required />
         <button type="submit" class="subscribe-btn">
           <i class="fas fa-bell"></i> Get Updates
@@ -229,7 +229,7 @@
     });
 
     // Email form submission
-    document.querySelector('.email-form').addEventListener('submit', function (e) {
+    document.querySelector('.email-form').addEventListener('submit', async function (e) {
       e.preventDefault();
       const btn = this.querySelector('.subscribe-btn');
       const original = btn.innerHTML;
@@ -237,7 +237,13 @@
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
       btn.disabled = true;
 
-      setTimeout(() => {
+      try {
+        await fetch('/.netlify/functions/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: this.querySelector('.email-input').value })
+        });
+
         btn.innerHTML = '<i class="fas fa-check"></i> Subscribed!';
         btn.style.background = '#27ae60';
 
@@ -247,7 +253,11 @@
           btn.disabled = false;
           this.querySelector('.email-input').value = '';
         }, 2000);
-      }, 1500);
+      } catch (err) {
+        btn.innerHTML = original;
+        btn.disabled = false;
+        console.error(err);
+      }
     });
   </script>
 </body>
