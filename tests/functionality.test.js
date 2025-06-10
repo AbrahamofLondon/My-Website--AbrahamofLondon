@@ -1,3 +1,9 @@
+/**
+ * @jest-environment jsdom
+ */
+
+require("../Project-documentation/tests/Jest-Test-Setup Code-setup.js");
+
 // JavaScript functionality tests for Abraham of London website
 
 describe('Website JavaScript Functionality', () => {
