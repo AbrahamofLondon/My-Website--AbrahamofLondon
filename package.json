@@ -4,7 +4,11 @@
   "description": "",
   "main": "scripts.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "serve": "http-server -p 8000",
+    "build": "npm test",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "",
@@ -12,6 +16,7 @@
   "type": "commonjs",
   "devDependencies": {
     "jest": "^29.7.0",
-    "jsdom": "^22.1.0"
+    "jsdom": "^22.1.0",
+    "http-server": "^14.1.1"
   }
 }
