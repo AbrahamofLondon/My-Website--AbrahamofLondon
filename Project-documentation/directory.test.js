@@ -69,7 +69,6 @@ abraham-of-london/
 │       ├── index.html      # Blog homepage
 │       └── fiction.index.html # Fiction blog
 ├── tests/                  # Jest test files
-└── Update                  # WordPress deployment script
 ```
 
 ## 🎨 Design System
@@ -130,30 +129,7 @@ For other hosting providers:
 2. **Upload files** to your web server
 3. **Configure server** to serve `index.html` as default
 
-### WordPress Integration
-The `Update` script provides Docker-based WordPress setup:
-
-```bash
-# Make script executable
-chmod +x Update
-
-# Run WordPress setup
-./Update
-```
-
-**⚠️ Security Note**: Update default credentials before production use.
-
 ## 🔧 Configuration
-
-### Environment Variables
-For production deployment, set these environment variables:
-
-```bash
-# WordPress Configuration (if using Update script)
-MYSQL_ROOT_PASSWORD=your_secure_password
-WORDPRESS_DB_PASSWORD=your_db_password
-WORDPRESS_ADMIN_EMAIL=your_email@domain.com
-```
 
 ### Contact Form
 The contact form is currently configured for client-side validation. For production:
