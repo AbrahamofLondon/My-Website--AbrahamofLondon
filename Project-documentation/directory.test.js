@@ -65,9 +65,12 @@ abraham-of-london/
 │       └── static.yml       # GitHub Actions deployment
 ├── fathering/
 │   ├── index.html          # Fathering section
-│   └── blog/
-│       ├── index.html      # Blog homepage
-│       └── fiction.index.html # Fiction blog
+│   ├── memoir.index.html   # Memoir page
+│   ├── blog/
+│   │   ├── index.html      # Blog homepage
+│   │   └── fiction.index.html # Short fiction post
+│   └── Fictional-Romance/
+│       └── index.html      # Romance fiction page
 ├── tests/                  # Jest test files
 └── Update                  # WordPress deployment script
 ```
