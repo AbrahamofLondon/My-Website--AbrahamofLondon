@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="styles.css" />
@@ -21,10 +20,10 @@
   <nav class="cross-site-nav">
     <div class="cross-nav-container">
       <div class="site-breadcrumb">
-        <a href="/"><i class="fas fa-home"></i> Abraham of London</a>
-        <i class="fas fa-chevron-right"></i>
+        <a href="/"><span aria-hidden="true">🏠</span> Abraham of London</a>
+        <span aria-hidden="true">›</span>
         <a href="/fathering">Fathering</a>
-        <i class="fas fa-chevron-right"></i>
+        <span aria-hidden="true">›</span>
         <span>Memoir</span>
       </div>
     </div>
@@ -50,7 +49,7 @@
       <h1>Fathering Without Fear</h1>
       <p class="memoir-subtitle">A Memoir of Breaking Generational Patterns</p>
       <div class="status-badge">
-        <i class="fas fa-edit"></i> In Progress - 65% Complete
+        <span aria-hidden="true">✏️</span> In Progress - 65% Complete
       </div>
     </div>
   </section>
@@ -134,22 +133,22 @@
         </div>
         <div class="milestones">
           <div class="milestone completed">
-            <i class="fas fa-check-circle"></i>
+            <span aria-hidden="true">✅</span>
             <h4>Outline Complete</h4>
             <p>✓ coming soon... </p>
           </div>
           <div class="milestone completed">
-            <i class="fas fa-check-circle"></i>
+            <span aria-hidden="true">✅</span>
             <h4>First Draft</h4>
             <p>✓ 8 of 24 chapters</p>
           </div>
           <div class="milestone">
-            <i class="fas fa-clock"></i>
+            <span aria-hidden="true">⏰</span>
             <h4>Beta Readers</h4>
             <p>soon</p>
           </div>
           <div class="milestone">
-            <i class="fas fa-star"></i>
+            <span aria-hidden="true">⭐</span>
             <h4>Publication</h4>
             <p>soon</p>
           </div>
@@ -168,7 +167,7 @@
       <form class="email-form">
         <input type="email" class="email-input" placeholder="Enter your email" required />
         <button type="submit" class="subscribe-btn">
-          <i class="fas fa-bell"></i> Get Updates
+          <span aria-hidden="true">🔔</span> Get Updates
         </button>
       </form>
     </div>
@@ -234,11 +233,11 @@
       const btn = this.querySelector('.subscribe-btn');
       const original = btn.innerHTML;
 
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+      btn.innerHTML = '<span aria-hidden="true">⏳</span> Subscribing...';
       btn.disabled = true;
 
       setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-check"></i> Subscribed!';
+        btn.innerHTML = '<span aria-hidden="true">✔️</span> Subscribed!';
         btn.style.background = '#27ae60';
 
         setTimeout(() => {
