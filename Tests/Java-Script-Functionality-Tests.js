@@ -79,7 +79,7 @@ describe('Website JavaScript Functionality', () => {
           <ul class="nav-menu" id="navMenu">
             <li><a href="#home" class="nav-link">Home</a></li>
             <li><a href="#about" class="nav-link">About</a></li>
-            <li><a href="#contact" class="nav-link">Contact</a></li>
+            <li><a href="contact.html" class="nav-link">Contact</a></li>
           </ul>
           <div class="hamburger" id="hamburger">
             <span></span>
