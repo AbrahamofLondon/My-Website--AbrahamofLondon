@@ -7,6 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
+  // Handle contact form submission feedback
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      if (!submitBtn) return;
+
+      submitBtn.textContent = "Sending...";
+
+      setTimeout(() => {
+        submitBtn.textContent = "Message Sent!";
+        contactForm.reset();
+      }, 500);
+    });
+  }
+
   // Smooth scrolling for internal anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", function (e) {
