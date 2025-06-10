@@ -26,35 +26,30 @@ A sophisticated, modern website showcasing Abraham of London's expertise as a vi
    git clone <repository-url>
    cd abraham-of-london
    ```
-
 2. **Install dependencies**
    ```bash
    npm install
    ```
-
 3. **Run tests**
    ```bash
    npm test
    ```
-
 4. **Start development server** (if using a local server)
    ```bash
    # Using Python 3
    python -m http.server 8000
-   
+
    # Using Node.js http-server
    npx http-server
-   
+
    # Using Live Server extension in VS Code
    # Right-click index.html and select "Open with Live Server"
    ```
-
 5. **Open in browser**
    Navigate to `http://localhost:8000` or your local server URL
 
 ## 📁 Project Structure
-
-```
+```text
 abraham-of-london/
 ├── index.html              # Main homepage
 ├── styles.css              # Global stylesheet (dark theme)
@@ -118,21 +113,18 @@ npm run test:coverage
 
 ### GitHub Pages / Netlify
 The site is configured for static hosting and includes a GitHub Actions workflow:
-
 1. **Automatic deployment** on push to main branch
 2. **Dependency installation** and test running
 3. **Static file deployment** to GitHub Pages
 
 ### Manual Deployment
 For other hosting providers:
-
 1. **Build the project** (if using build tools)
 2. **Upload files** to your web server
 3. **Configure server** to serve `index.html` as default
 
 ### WordPress Integration
 The `Update` script provides Docker-based WordPress setup:
-
 ```bash
 # Make script executable
 chmod +x Update
@@ -140,14 +132,12 @@ chmod +x Update
 # Run WordPress setup
 ./Update
 ```
-
 **⚠️ Security Note**: Update default credentials before production use.
 
 ## 🔧 Configuration
 
 ### Environment Variables
 For production deployment, set these environment variables:
-
 ```bash
 # WordPress Configuration (if using Update script)
 MYSQL_ROOT_PASSWORD=your_secure_password
@@ -157,19 +147,16 @@ WORDPRESS_ADMIN_EMAIL=your_email@domain.com
 
 ### Contact Form
 The contact form is currently configured for client-side validation. For production:
-
 1. **Add server-side processing** for form submissions
 2. **Configure email service** (SendGrid, Mailgun, etc.)
 3. **Add CSRF protection** and spam filtering
 
 ## 📱 Browser Support
-
 - **Modern browsers**: Chrome 60+, Firefox 60+, Safari 12+, Edge 79+
 - **Mobile browsers**: iOS Safari 12+, Chrome Mobile 60+
 - **Features used**: CSS Grid, Flexbox, CSS Custom Properties, ES6+
 
 ## 🤝 Contributing
-
 1. **Fork the repository**
 2. **Create feature branch** (`git checkout -b feature/amazing-feature`)
 3. **Commit changes** (`git commit -m 'Add amazing feature'`)
@@ -184,7 +171,6 @@ The contact form is currently configured for client-side validation. For product
 - Test across different devices and browsers
 
 ## 🐛 Known Issues
-
 1. **Blog pages contain duplicated content** - Needs cleanup
 2. **Some HTML files have structural issues** - Requires refactoring
 3. **Contact form needs backend integration** - Currently client-side only
