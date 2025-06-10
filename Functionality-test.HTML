@@ -27,7 +27,7 @@ describe('Abraham of London Website', () => {
               <li><a href="#about" class="nav-link">About</a></li>
               <li><a href="#ventures" class="nav-link">Ventures</a></li>
               <li><a href="#fathering" class="nav-link">Fathering Vlogs</a></li>
-              <li><a href="#contact" class="nav-link">Contact</a></li>
+              <li><a href="contact.html" class="nav-link">Contact</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
               <span></span>
@@ -116,7 +116,7 @@ describe('Abraham of London Website', () => {
       const navLinks = document.querySelectorAll('.nav-link');
       expect(navLinks).toHaveLength(5);
       
-      const expectedLinks = ['#home', '#about', '#ventures', '#fathering', '#contact'];
+      const expectedLinks = ['#home', '#about', '#ventures', '#fathering', 'contact.html'];
       navLinks.forEach((link, index) => {
         expect(link.getAttribute('href')).toBe(expectedLinks[index]);
       });
