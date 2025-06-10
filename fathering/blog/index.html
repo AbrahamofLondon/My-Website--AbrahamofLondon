@@ -1,102 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog & Insights | Fathering Without Fear</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #223843;
-            --secondary: #D8B08C;
-            --accent: #FDF7F1;
-            --neutral-dark: #121212;
-            --neutral-light: #EFEFEF;
-            --text-dark: #2c3e50;
-            --text-light: #ffffff;
-            --abraham-gold: #d4af37;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog &amp; Insights | Fathering Without Fear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #223843;
+      --secondary: #D8B08C;
+      --accent: #FDF7F1;
+      --neutral-dark: #121212;
+      --neutral-light: #EFEFEF;
+      --text-dark: #2c3e50;
+      --text-light: #ffffff;
+      --abraham-gold: #d4af37;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            overflow-x: hidden;
-        }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+    }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-        }
+    h1, h2, h3 {
+      font-family: 'Playfair Display', serif;
+    }
 
-        /* Navigation */
-        .cross-site-nav {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            padding: 0.5rem 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1001;
-            font-size: 0.9rem;
-        }
+    .cross-site-nav {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 0.5rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1001;
+      font-size: 0.9rem;
+    }
 
-        .cross-nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
+    .cross-nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
 
-        .site-breadcrumb {
-            color: var(--abraham-gold);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .site-breadcrumb {
+      color: var(--abraham-gold);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .site-breadcrumb a {
-            color: var(--abraham-gold);
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
+    .site-breadcrumb a {
+      color: var(--abraham-gold);
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+    }
 
-        .site-breadcrumb a:hover {
-            opacity: 0.8;
-        }
+    .site-breadcrumb a:hover {
+      opacity: 0.8;
+    }
 
-        .navbar {
-            position: fixed;
-            top: 40px;
-            width: 100%;
-            background: rgba(34, 56, 67, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 0;
-        }
+    .navbar {
+      position: fixed;
+      top: 40px;
+      width: 100%;
+      background: rgba(34, 56, 67, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--secondary);
-            text-decoration:
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--secondary);
+    }
+
+    main {
+      padding-top: 120px;
+    }
+
+    .hero {
+      background: var(--accent);
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .posts {
+      max-width: 800px;
+      margin: 3rem auto;
+    }
+
+    .post-card {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .footer {
+      background: var(--neutral-dark);
+      color: var(--text-light);
+      padding: 3rem 0 2rem;
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <nav class="cross-site-nav">
+    <div class="cross-nav-container">
+      <div class="site-breadcrumb">
+        <a href="/"><i class="fas fa-home"></i> Abraham of London</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="/fathering">Fathering</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Blog</span>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/fathering" class="logo">Fathering Without Fear</a>
+      <ul class="nav-links">
+        <li><a href="/fathering">Home</a></li>
+        <li><a href="/fathering/memoir">Memoir</a></li>
+        <li><a href="/fathering/fiction">Fiction</a></li>
+        <li><a href="/fathering/blog" class="active">Blog</a></li>
+        <li><a href="/fathering/community">Community</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <h1>Blog &amp; Insights</h1>
+      <p>Stories and reflections on fatherhood, faith and creativity.</p>
+    </section>
+
+    <div class="posts">
+      <div class="post-card">
+        <h2>Welcome to the Blog</h2>
+        <p>Content coming soon. Stay tuned for updates as we share behind the scenes of the memoir and fiction projects.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Abraham of London. All rights reserved.</p>
+      <div class="footer-bottom">Made with purpose.</div>
+    </div>
+  </footer>
+</body>
+</html>
