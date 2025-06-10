@@ -1,102 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog & Insights | Fathering Without Fear</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #223843;
-            --secondary: #D8B08C;
-            --accent: #FDF7F1;
-            --neutral-dark: #121212;
-            --neutral-light: #EFEFEF;
-            --text-dark: #2c3e50;
-            --text-light: #ffffff;
-            --abraham-gold: #d4af37;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog & Insights | Fathering Without Fear</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #223843;
+      --secondary: #D8B08C;
+      --accent: #FDF7F1;
+      --neutral-dark: #121212;
+      --neutral-light: #EFEFEF;
+      --text-dark: #2c3e50;
+      --text-light: #ffffff;
+      --abraham-gold: #d4af37;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            overflow-x: hidden;
-        }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.6;
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-        }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+    }
 
-        /* Navigation */
-        .cross-site-nav {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            padding: 0.5rem 0;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1001;
-            font-size: 0.9rem;
-        }
+    /* Navigation */
+    .cross-site-nav {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 0.5rem 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1001;
+      font-size: 0.9rem;
+    }
 
-        .cross-nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
+    .cross-nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
 
-        .site-breadcrumb {
-            color: var(--abraham-gold);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+    .site-breadcrumb {
+      color: var(--abraham-gold);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-        .site-breadcrumb a {
-            color: var(--abraham-gold);
-            text-decoration: none;
-            transition: opacity 0.3s ease;
-        }
+    .site-breadcrumb a {
+      color: var(--abraham-gold);
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+    }
 
-        .site-breadcrumb a:hover {
-            opacity: 0.8;
-        }
+    .site-breadcrumb a:hover {
+      opacity: 0.8;
+    }
 
-        .navbar {
-            position: fixed;
-            top: 40px;
-            width: 100%;
-            background: rgba(34, 56, 67, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 1rem 0;
-        }
+    .navbar {
+      position: fixed;
+      top: 40px;
+      width: 100%;
+      background: rgba(34, 56, 67, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+    }
 
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--secondary);
-            text-decoration:
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary);
+    }
+
+    .nav-links a.active {
+      color: var(--secondary);
+      border-bottom: 2px solid var(--secondary);
+      padding-bottom: 5px;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .hero {
+      height: 60vh;
+      background: linear-gradient(rgba(34,56,67,0.6), rgba(34,56,67,0.6)), url('../../Project-documentation/assets/hero-blog.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--text-light);
+      margin-top: 80px;
+    }
+
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 4rem 0;
+    }
+
+    .post-card {
+      background: var(--accent);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .post-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .post-content {
+      padding: 1rem;
+    }
+
+    footer {
+      background: var(--neutral-dark);
+      color: var(--text-light);
+      text-align: center;
+      padding: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Cross-Site Navigation -->
+  <nav class="cross-site-nav">
+    <div class="cross-nav-container">
+      <div class="site-breadcrumb">
+        <a href="/"><i class="fas fa-home"></i> Abraham of London</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="/fathering">Fathering</a>
+        <i class="fas fa-chevron-right"></i>
+        <span>Blog</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/fathering" class="logo">Fathering Without Fear</a>
+      <ul class="nav-links">
+        <li><a href="/fathering">Home</a></li>
+        <li><a href="/fathering/memoir">Memoir</a></li>
+        <li><a href="/fathering/fiction">Fiction</a></li>
+        <li><a href="/fathering/blog" class="active">Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Blog &amp; Insights</h1>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="posts">
+      <article class="post-card">
+        <img src="../../Project-documentation/assets/sample1.jpg" alt="Sample post">
+        <div class="post-content">
+          <h3>Welcome to the Journey</h3>
+          <p>A look at what it means to father without fear in the modern world.</p>
+        </div>
+      </article>
+      <article class="post-card">
+        <img src="../../Project-documentation/assets/sample2.jpg" alt="Sample post">
+        <div class="post-content">
+          <h3>Balancing Work and Family</h3>
+          <p>Tips on maintaining harmony when life gets hectic.</p>
+        </div>
+      </article>
+      <article class="post-card">
+        <img src="../../Project-documentation/assets/sample3.jpg" alt="Sample post">
+        <div class="post-content">
+          <h3>Celebrating Small Victories</h3>
+          <p>Why acknowledging growth matters for both father and child.</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    &copy; <span id="year"></span> Fathering Without Fear
+  </footer>
+
+  <script src="../../scripts.js"></script>
+</body>
+</html>
