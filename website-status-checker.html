@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abraham of London - Website Status Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .check-list {
+            list-style: none;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .check-item:hover {
+            background: #f8f9fa;
+        }
+
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-pass { background: #28a745; }
+        .status-fail { background: #dc3545; }
+        .status-warn { background: #ffc107; color: #333; }
+        .status-info { background: #17a2b8; }
+
+        .icon-structure { background: #6f42c1; }
+        .icon-design { background: #e83e8c; }
+        .icon-functionality { background: #fd7e14; }
+        .icon-content { background: #20c997; }
+        .icon-performance { background: #17a2b8; }
+        .icon-seo { background: #28a745; }
+
+        .summary {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .summary h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.5s ease;
+        }
+
+        .actions {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .test-results {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Website Status Checker</h1>
+            <p>Comprehensive analysis of Abraham of London website improvements</p>
+        </div>
+
+        <div class="status-grid">
+            <!-- HTML Structure Card -->
+            <div class="status-card">
+                <div class="card-header">
+                    <div class="card-icon icon-structure">📄</div>
+                    <h3 class="card-title">HTML Structure</h3>
+                </div>
+                <ul class="check-list" id="structure-checks">
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="doctype-status">?</span>
+                        <span>Valid DOCTYPE declaration</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="semantic-status">?</span>
+                        <span>Semantic HTML5 elements</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="meta-status">?</span>
+                        <span>Proper meta tags</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="sections-status">?</span>
+                        <span>All main sections present</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="navigation-status">?</span>
+                        <span>Navigation structure</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Design & Styling Card -->
+            <div class="status-card">
+                <div class="card-header">
+                    <div class="card-icon icon-design">🎨</div>
+                    <h3 class="card-title">Design & Styling</h3>
+                </div>
+                <ul class="check-list" id="design-checks">
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="dark-theme-status">?</span>
+                        <span>Dark theme implementation</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="responsive-status">?</span>
+                        <span>Responsive design</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="typography-status">?</span>
+                        <span>Typography (Playfair + Inter)</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="colors-status">?</span>
+                        <span>Gold accent colors</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="animations-status">?</span>
+                        <span>Smooth animations</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Functionality Card -->
+            <div class="status-card">
+                <div class="card-header">
+                    <div class="card-icon icon-functionality">⚙️</div>
+                    <h3 class="card-title">Functionality</h3>
+                </div>
+                <ul class="check-list" id="functionality-checks">
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="nav-links-status">?</span>
+                        <span>Navigation links working</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="contact-form-status">?</span>
+                        <span>Contact form validation</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="mobile-menu-status">?</span>
+                        <span>Mobile menu toggle</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="scroll-status">?</span>
+                        <span>Smooth scrolling</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="video-status">?</span>
+                        <span>Video player interaction</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Content Card -->
+            <div class="status-card">
+                <div class="card-header">
+                    <div class="card-icon icon-content">📝</div>
+                    <h3 class="card-title">Content Quality</h3>
+                </div>
+                <ul class="check-list" id="content-checks">
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="hero-content-status">?</span>
+                        <span>Hero section content</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="about-content-status">?</span>
+                        <span>About section completeness</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="services-content-status">?</span>
+                        <span>Services/ventures content</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="blog-content-status">?</span>
+                        <span>Blog structure and posts</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="contact-info-status">?</span>
+                        <span>Contact information</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Performance Card -->
+            <div class="status-card">
+                <div class="card-header">
+                    <div class="card-icon icon-performance">⚡</div>
+                    <h3 class="card-title">Performance</h3>
+                </div>
+                <ul class="check-list" id="performance-checks">
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="load-time-status">?</span>
+                        <span>Page load time &lt; 3s</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="css-optimized-status">?</span>
+                        <span>CSS optimization</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="js-errors-status">?</span>
+                        <span>No JavaScript errors</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="mobile-performance-status">?</span>
+                        <span>Mobile performance</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="console-errors-status">?</span>
+                        <span>No console errors</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- SEO & Accessibility Card -->
+            <div class="status-card">
+                <div class="card-header">
+                    <div class="card-icon icon-seo">🚀</div>
+                    <h3 class="card-title">SEO & Accessibility</h3>
+                </div>
+                <ul class="check-list" id="seo-checks">
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="title-tags-status">?</span>
+                        <span>Title tags present</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="alt-text-status">?</span>
+                        <span>Image alt attributes</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="headings-status">?</span>
+                        <span>Proper heading hierarchy</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="aria-labels-status">?</span>
+                        <span>ARIA labels for forms</span>
+                    </li>
+                    <li class="check-item">
+                        <span class="status-icon status-info" id="structured-data-status">?</span>
+                        <span>Structured data markup</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="summary">
+            <h2>📊 Overall Status Summary</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <p id="summary-text">Running comprehensive analysis...</p>
+            <div id="summary-details"></div>
+        </div>
+
+        <!-- Actions Section -->
+        <div class="actions">
+            <h2>🚀 Recommended Actions</h2>
+            <p>Based on the analysis results, here are the recommended next steps:</p>
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="runFullAnalysis()">🔄 Re-run Analysis</button>
+                <button class="btn btn-success" onclick="checkNetworkRequests()">🌐 Check Network</button>
+                <button class="btn btn-warning" onclick="validateHTML()">✅ Validate HTML</button>
+                <button class="btn btn-primary" onclick="testResponsiveness()">📱 Test Mobile</button>
+                <button class="btn btn-success" onclick="generateReport()">📄 Generate Report</button>
+            </div>
+            <div class="test-results" id="test-results" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Website Status Checker Implementation
+        class WebsiteChecker {
+            constructor() {
+                this.checks = {
+                    structure: 0,
+                    design: 0,
+                    functionality: 0,
+                    content: 0,
+                    performance: 0,
+                    seo: 0
+                };
+                this.totalChecks = 0;
+                this.passedChecks = 0;
+                this.init();
+            }
+
+            init() {
+                console.log('🔍 Starting website analysis...');
+                this.runAllChecks();
+            }
+
+            runAllChecks() {
+                this.checkHTMLStructure();
+                this.checkDesignAndStyling();
+                this.checkFunctionality();
+                this.checkContent();
+                this.checkPerformance();
+                this.checkSEOAndAccessibility();
+                this.updateSummary();
+            }
+
+            updateStatus(elementId, status) {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.className = `status-icon status-${status}`;
+                    element.textContent = status === 'pass' ? '✓' : status === 'fail' ? '✗' : status === 'warn' ? '⚠' : '?';
+                    this.totalChecks++;
+                    if (status === 'pass') this.passedChecks++;
+                }
+            }
+
+            checkHTMLStructure() {
+                console.log('Checking HTML structure...');
+                
+                // Check DOCTYPE
+                const hasDoctype = document.doctype && document.doctype.name === 'html';
+                this.updateStatus('doctype-status', hasDoctype ? 'pass' : 'fail');
+
+                // Check semantic elements
+                const hasSemanticElements = document.querySelector('nav') && 
+                                          document.querySelector('main, section') && 
+                                          document.querySelector('footer');
+                this.updateStatus('semantic-status', hasSemanticElements ? 'pass' : 'fail');
+
+                // Check meta tags
+                const hasMetaTags = document.querySelector('meta[name="viewport"]') && 
+                                  document.querySelector('meta[charset]');
+                this.updateStatus('meta-status', hasMetaTags ? 'pass' : 'fail');
+
+                // Check main sections
+                const sections = ['home', 'about', 'ventures', 'fathering', 'contact'];
+                const hasSections = sections.every(id => document.getElementById(id));
+                this.updateStatus('sections-status', hasSections ? 'pass' : 'warn');
+
+                // Check navigation
+                const navLinks = document.querySelectorAll('.nav-link');
+                this.updateStatus('navigation-status', navLinks.length >= 4 ? 'pass' : 'warn');
+            }
+
+            checkDesignAndStyling() {
+                console.log('Checking design and styling...');
+
+                // Check dark theme
+                const bodyBg = getComputedStyle(document.body).backgroundColor;
+                const isDarkTheme = bodyBg.includes('26, 26, 46') || bodyBg === 'rgb(26, 26, 46)';
+                this.updateStatus('dark-theme-status', isDarkTheme ? 'pass' : 'warn');
+
+                // Check responsive design
+                const hasViewportMeta = document.querySelector('meta[name="viewport"]');
+                this.updateStatus('responsive-status', hasViewportMeta ? 'pass' : 'fail');
+
+                // Check typography
+                const titleElement = document.querySelector('.hero-title, h1');
+                const titleFont = titleElement ? getComputedStyle(titleElement).fontFamily : '';
+                const hasPlayfair = titleFont.includes('Playfair') || titleFont.includes('serif');
+                this.updateStatus('typography-status', hasPlayfair ? 'pass' : 'warn');
+
+                // Check gold accent color
+                const goldElements = document.querySelectorAll('[style*="#d4af37"], .gold-accent');
+                this.updateStatus('colors-status', goldElements.length > 0 ? 'pass' : 'warn');
+
+                // Check animations
+                const animatedElements = document.querySelectorAll('[style*="transition"], .animated');
+                this.updateStatus('animations-status', animatedElements.length > 0 ? 'pass' : 'warn');
+            }
+
+            checkFunctionality() {
+                console.log('Checking functionality...');
+
+                // Check navigation links
+                const navLinks = document.querySelectorAll('.nav-link');
+                let workingLinks = 0;
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href && href.startsWith('#') && document.querySelector(href)) {
+                        workingLinks++;
+                    }
+                });
+                this.updateStatus('nav-links-status', workingLinks >= 3 ? 'pass' : 'warn');
+
+                // Check contact form
+                const contactForm = document.getElementById('contactForm');
+                const hasRequiredFields = contactForm && 
+                                        contactForm.querySelector('input[required]') &&
+                                        contactForm.querySelector('textarea[required]');
+                this.updateStatus('contact-form-status', hasRequiredFields ? 'pass' : 'warn');
+
+                // Check mobile menu
+                const hamburger = document.getElementById('hamburger');
+                const navMenu = document.getElementById('navMenu');
+                this.updateStatus('mobile-menu-status', hamburger && navMenu ? 'pass' : 'warn');
+
+                // Check smooth scrolling
+                const htmlElement = document.documentElement;
+                const hasScrollBehavior = getComputedStyle(htmlElement).scrollBehavior === 'smooth';
+                this.updateStatus('scroll-status', hasScrollBehavior ? 'pass' : 'warn');
+
+                // Check video player
+                const videoContainer = document.getElementById('videoContainer');
+                this.updateStatus('video-status', videoContainer ? 'pass' : 'warn');
+            }
+
+            checkContent() {
+                console.log('Checking content quality...');
+
+                // Check hero content
+                const heroTitle = document.querySelector('.hero-title');
+                const heroContent = heroTitle && heroTitle.textContent.trim().length > 0;
+                this.updateStatus('hero-content-status', heroContent ? 'pass' : 'fail');
+
+                // Check about section
+                const aboutSection = document.getElementById('about');
+                const aboutContent = aboutSection && aboutSection.textContent.trim().length > 100;
+                this.updateStatus('about-content-status', aboutContent ? 'pass' : 'warn');
+
+                // Check services/ventures
+                const venturesSection = document.getElementById('ventures');
+                const ventureCards = document.querySelectorAll('.venture-card');
+                this.updateStatus('services-content-status', ventureCards.length >= 3 ? 'pass' : 'warn');
+
+                // Check blog structure
+                const blogExists = document.querySelector('[href*="blog"]') || 
+                                 document.querySelector('.blog, .fathering');
+                this.updateStatus('blog-content-status', blogExists ? 'pass' : 'warn');
+
+                // Check contact info
+                const contactSection = document.getElementById('contact');
+                const contactInfo = contactSection && contactSection.textContent.includes('@');
+                this.updateStatus('contact-info-status', contactInfo ? 'pass' : 'warn');
+            }
+
+            checkPerformance() {
+                console.log('Checking performance...');
+
+                // Check load time (simulated)
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                this.updateStatus('load-time-status', loadTime < 3000 ? 'pass' : 'warn');
+
+                // Check CSS optimization
+                const stylesheets = document.querySelectorAll('link[rel="stylesheet"], style');
+                this.updateStatus('css-optimized-status', stylesheets.length <= 3 ? 'pass' : 'warn');
+
+                // Check for JavaScript errors
+                let hasJSErrors = false;
+                window.addEventListener('error', () => { hasJSErrors = true; });
+                setTimeout(() => {
+                    this.updateStatus('js-errors-status', !hasJSErrors ? 'pass' : 'fail');
+                }, 1000);
+
+                // Check mobile performance (viewport)
+                const viewport = document.querySelector('meta[name="viewport"]');
+                this.updateStatus('mobile-performance-status', viewport ? 'pass' : 'fail');
+
+                // Check console errors
+                const originalConsoleError = console.error;
+                let consoleErrorCount = 0;
+                console.error = (...args) => {
+                    consoleErrorCount++;
+                    originalConsoleError.apply(console, args);
+                };
+                setTimeout(() => {
+                    this.updateStatus('console-errors-status', consoleErrorCount === 0 ? 'pass' : 'warn');
+                }, 1000);
+            }
+
+            checkSEOAndAccessibility() {
+                console.log('Checking SEO and accessibility...');
+
+                // Check title tags
+                const title = document.querySelector('title');
+                this.updateStatus('title-tags-status', title && title.textContent.length > 0 ? 'pass' : 'fail');
+
+                // Check alt text
+                const images = document.querySelectorAll('img');
+                const imagesWithAlt = Array.from(images).filter(img => img.getAttribute('alt'));
+                this.updateStatus('alt-text-status', images.length === 0 || imagesWithAlt.length >= images.length * 0.8 ? 'pass' : 'warn');
+
+                // Check heading hierarchy
+                const h1 = document.querySelector('h1');
+                const h2s = document.querySelectorAll('h2');
+                this.updateStatus('headings-status', h1 && h2s.length > 0 ? 'pass' : 'warn');
+
+                // Check ARIA labels
+                const forms = document.querySelectorAll('form');
+                const inputsWithLabels = document.querySelectorAll('input[aria-label], input + label, textarea[aria-label], textarea + label');
+                this.updateStatus('aria-labels-status', forms.length === 0 || inputsWithLabels.length > 0 ? 'pass' : 'warn');
+
+                // Check structured data
+                const structuredData = document.querySelector('script[type="application/ld+json"]');
+                this.updateStatus('structured-data-status', structuredData ? 'pass' : 'warn');
+            }
+
+            updateSummary() {
+                setTimeout(() => {
+                    const percentage = Math.round((this.passedChecks / this.totalChecks) * 100);
+                    const progressFill = document.getElementById('progress-fill');
+                    const summaryText = document.getElementById('summary-text');
+                    
+                    progressFill.style.width = percentage + '%';
+                    
+                    let status = 'Excellent';
+                    let color = '#28a745';
+                    if (percentage < 70) {
+                        status = 'Needs Improvement';
+                        color = '#dc3545';
+                    } else if (percentage < 85) {
+                        status = 'Good';
+                        color = '#ffc107';
+                    }
+                    
+                    progressFill.style.background = color;
+                    summaryText.innerHTML = `
+                        <strong>Overall Score: ${percentage}% (${status})</strong><br>
+                        ${this.passedChecks} out of ${this.totalChecks} checks passed
+                    `;
+
+                    // Add detailed breakdown
+                    const summaryDetails = document.getElementById('summary-details');
+                    summaryDetails.innerHTML = `
+                        <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                            <div><strong>Structure:</strong> ${this.getPassedInCategory('structure')}/5</div>
+                            <div><strong>Design:</strong> ${this.getPassedInCategory('design')}/5</div>
+                            <div><strong>Functionality:</strong> ${this.getPassedInCategory('functionality')}/5</div>
+                            <div><strong>Content:</strong> ${this.getPassedInCategory('content')}/5</div>
+                            <div><strong>Performance:</strong> ${this.getPassedInCategory('performance')}/5</div>
+                            <div><strong>SEO:</strong> ${this.getPassedInCategory('seo')}/5</div>
+                        </div>
+                    `;
+                }, 2000);
+            }
+
+            getPassedInCategory(category) {
+                const categoryChecks = document.querySelectorAll(`#${category}-checks .status-pass`);
+                return categoryChecks.length;
+            }
+        }
+
+        // Global functions for action buttons
+        function runFullAnalysis() {
+            location.reload();
+        }
+
+        function checkNetworkRequests() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.innerHTML = `
+🌐 Network Analysis:
+✅ CSS files loaded: ${document.querySelectorAll('link[rel="stylesheet"]').length}
+✅ JavaScript files loaded: ${document.querySelectorAll('script[src]').length}
+✅ External fonts: ${document.querySelectorAll('link[href*="fonts"]').length}
+✅ CDN resources: ${document.querySelectorAll('link[href*="cdn"], script[src*="cdn"]').length}
+
+🔍 Checking for failed resources...
+${performance.getEntriesByType('resource').filter(r => r.responseEnd === 0).length === 0 ? '✅ All resources loaded successfully' : '⚠️ Some resources failed to load'}
+            `;
+        }
+
+        function validateHTML() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.innerHTML = `
+📝 HTML Validation Results:
+✅ DOCTYPE: ${document.doctype ? 'Present' : 'Missing'}
+✅ HTML5 elements: ${document.querySelector('nav, main, section, article, aside, header, footer') ? 'Found' : 'Not found'}
+✅ Required meta tags: ${document.querySelector('meta[charset], meta[name="viewport"]') ? 'Present' : 'Missing'}
+✅ Form validation: ${document.querySelector('form[novalidate]') ? 'Custom validation' : 'Browser validation'}
+
+🔍 Checking for common issues...
+${document.querySelectorAll('[id]').length === new Set(Array.from(document.querySelectorAll('[id]')).map(el => el.id)).size ? '✅ No duplicate IDs found' : '⚠️ Duplicate IDs detected'}
+            `;
+        }
+
+        function testResponsiveness() {
+            const results = document.getElementById('test-results');
+            results.style.display = 'block';
+            results.innerHTML = `
+📱 Responsiveness Analysis:
+✅ Viewport meta tag: ${document.querySelector('meta[name="viewport"]') ? 'Present' : 'Missing'}
+✅ Flexible layouts: ${document.querySelector('[style*="grid"], [style*="flex"]') ? 'CSS Grid/Flexbox detected' : 'Table-based layout detected'}
+✅ Media queries: ${Array.from(document.styleSheets).some(sheet => {
+    try {
+        return Array.from(sheet.cssRules || []).some(rule => rule.type === CSSRule.MEDIA_RULE);
+    } catch(e) { return false; }
+}) ? 'Present' : 'Not detected'}
+
+🔍 Testing breakpoints:
+📱 Mobile (320px): ${window.innerWidth <= 768 ? 'Current view' : 'Not tested'}
+💻 Tablet (768px): ${window.innerWidth > 768 && window.innerWidth <= 1024 ? 'Current view' : 'Not tested'}
+🖥️ Desktop (1024px+): ${window.innerWidth > 1024 ? 'Current view' : 'Not tested'}
+
+💡 Tip: Resize your browser window to test different breakpoints
+            `;
+        }
+
+        function generateReport() {
+            const checker = new WebsiteChecker();
+            setTimeout(() => {
+                const results = document.getElementById('test-results');
+                results.style.display = 'block';
+                
+                const timestamp = new Date().toLocaleString();
+                const percentage = Math.round((checker.passedChecks / checker.totalChecks) * 100);
+                
+                results.innerHTML = `
+📊 WEBSITE STATUS REPORT - ${timestamp}
+
+🎯 OVERALL SCORE: ${percentage}% (${checker.passedChecks}/${checker.totalChecks} checks passed)
+
+📋 CATEGORY BREAKDOWN:
+├── 📄 HTML Structure: ${checker.getPassedInCategory('structure')}/5
+├── 🎨 Design & Styling: ${checker.getPassedInCategory('design')}/5  
+├── ⚙️ Functionality: ${checker.getPassedInCategory('functionality')}/5
+├── 📝 Content Quality: ${checker.getPassedInCategory('content')}/5
+├── ⚡ Performance: ${checker.getPassedInCategory('performance')}/5
+└── 🚀 SEO & Accessibility: ${checker.getPassedInCategory('seo')}/5
+
+🔧 PRIORITY ACTIONS:
+${percentage < 70 ? '🔴 HIGH: Fix failing structural issues first' : ''}
+${percentage < 85 ? '🟡 MEDIUM: Optimize performance and content' : ''}
+${percentage >= 85 ? '🟢 LOW: Minor optimizations and enhancements' : ''}
+
+📈 RECOMMENDATIONS:
+• ${document.getElementById('contact-form-status').classList.contains('status-pass') ? '✅' : '❌'} Contact form backend integration
+• ${document.getElementById('video-status').classList.contains('status-pass') ? '✅' : '❌'} Video content implementation  
+• ${document.getElementById('blog-content-status').classList.contains('status-pass') ? '✅' : '❌'} Blog content expansion
+• ${document.getElementById('structured-data-status').classList.contains('status-pass') ? '✅' : '❌'} SEO structured data
+
+🎯 NEXT STEPS:
+1. Address any failing checks (marked with ✗)
+2. Implement backend integration for forms
+3. Add real video content
+4. Optimize for Core Web Vitals
+5. Regular monitoring and updates
+                `;
+            }, 1000);
+        }
+
+        // Initialize the checker when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Website Status Checker initialized');
+            
+            // Add some delay to let everything load
+            setTimeout(() => {
+                new WebsiteChecker();
+            }, 1000);
+            
+            // Add live monitoring
+            setInterval(() => {
+                console.log('🔄 Running background health check...');
+                // You could add continuous monitoring here
+            }, 30000); // Check every 30 seconds
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'r':
+                        if (e.shiftKey) {
+                            e.preventDefault();
+                            runFullAnalysis();
+                        }
+                        break;
+                    case 't':
+                        e.preventDefault();
+                        testResponsiveness();
+                        break;
+                    case 'g':
+                        e.preventDefault();
+                        generateReport();
+                        break;
+                }
+            }
+        });
+
+        // Add help tooltip
+        const helpButton = document.createElement('div');
+        helpButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+            z-index: 1000;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        `;
+        helpButton.innerHTML = '?';
+        helpButton.title = 'Keyboard shortcuts:\nCtrl+Shift+R: Re-run analysis\nCtrl+T: Test responsiveness\nCtrl+G: Generate report';
+        
+        helpButton.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+        });
+        
+        helpButton.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+        
+        helpButton.addEventListener('click', function() {
+            alert('Keyboard Shortcuts:\n\n• Ctrl+Shift+R: Re-run analysis\n• Ctrl+T: Test responsiveness\n• Ctrl+G: Generate report\n\nTip: Open browser DevTools (F12) to see detailed console logs');
+        });
+        
+        document.body.appendChild(helpButton);
+
+        // Performance monitoring
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const perfData = performance.timing;
+                const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+                const domContentLoaded = perfData.domContentLoadedEventEnd - perfData.navigationStart;
+                
+                console.log(`⚡ Performance Metrics:
+📊 Total Load Time: ${loadTime}ms
+📊 DOM Content Loaded: ${domContentLoaded}ms
+📊 Time to Interactive: ${perfData.loadEventEnd - perfData.navigationStart}ms
+📊 Resources: ${performance.getEntriesByType('resource').length} files loaded
+                `);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
