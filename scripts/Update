@@ -1,4 +1,7 @@
 #!/bin/bash
+# Purpose: WordPress setup for the AbrahamofLondon site.
+# Usage: bash scripts/Update
+
 # AbrahamofLondon Superbrand Website Deployment Script
 # This script automates the setup and deployment of the AbrahamofLondon website
 
