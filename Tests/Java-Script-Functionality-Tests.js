@@ -98,6 +98,10 @@ describe('Website JavaScript Functionality', () => {
       </section>
 
       <div class="video-container" id="videoContainer">
+        <video id="fatheringVideo" controls poster="https://via.placeholder.com/640x360.png">
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
         <div class="play-button"></div>
       </div>
 
@@ -267,6 +271,14 @@ describe('Website JavaScript Functionality', () => {
     test('should have play button in video container', () => {
       const playButton = document.querySelector('.play-button');
       expect(playButton).toBeTruthy();
+    });
+
+    test('should load video source', () => {
+      const video = document.querySelector('#videoContainer video');
+      expect(video).toBeTruthy();
+      const source = video.querySelector('source');
+      expect(source).toBeTruthy();
+      expect(source.getAttribute('src')).toBeTruthy();
     });
   });
 
