@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #223843;
@@ -666,10 +665,10 @@
     <nav class="cross-site-nav">
         <div class="cross-nav-container">
             <div class="site-breadcrumb">
-                <a href="/"><i class="fas fa-home"></i> Abraham of London</a>
-                <i class="fas fa-chevron-right"></i>
+                <a href="/"><span aria-hidden="true">🏠</span> Abraham of London</a>
+                <span aria-hidden="true">›</span>
                 <a href="/fathering">Fathering</a>
-                <i class="fas fa-chevron-right"></i>
+                <span aria-hidden="true">›</span>
                 <span>Fiction</span>
             </div>
         </div>
@@ -695,7 +694,7 @@
             <h1>The Abraham Chronicles</h1>
             <p class="fiction-subtitle">Where History Meets Imagination</p>
             <div class="series-badge">
-                <i class="fas fa-magic"></i> Fantasy Fiction Series • In Development
+                <span aria-hidden="true">✨</span> Fantasy Fiction Series • In Development
             </div>
         </div>
     </section>
@@ -998,7 +997,7 @@
             <form class="newsletter-form">
                 <input type="email" class="newsletter-input" placeholder="Enter your email for fiction updates" required>
                 <button type="submit" class="newsletter-btn">
-                    <i class="fas fa-magic"></i> Join Chronicles
+                    <span aria-hidden="true">✨</span> Join Chronicles
                 </button>
             </form>
             <p style="font-size: 0.9rem; color: var(--primary); margin-top: 1rem; opacity: 0.8;">
@@ -1101,11 +1100,11 @@
             const button = this.querySelector('.newsletter-btn');
             const originalText = button.innerHTML;
             
-            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
+            button.innerHTML = '<span aria-hidden="true">⏳</span> Joining...';
             button.disabled = true;
             
             setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-check"></i> Welcome to Chronicles!';
+                button.innerHTML = '<span aria-hidden="true">✔️</span> Welcome to Chronicles!';
                 button.style.background = '#27ae60';
                 
                 setTimeout(() => {
