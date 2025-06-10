@@ -923,5 +923,19 @@ cat > custom-theme/assets/js/main.js << 'EOF'
         // Smooth scroll for anchor links
         $('a[href^="#"]').on('click', function(event) {
             var target = $(this.getAttribute('href'));
-            if( target.length ) {
-                event
+            if (target.length) {
+                event.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top
+                }, 500);
+            }
+        });
+    });
+})(jQuery);
+EOF
+
+# Start the WordPress containers
+docker-compose up -d
+
+echo "Deployment complete. Access your site at http://localhost:8000"
+echo "# End of script"
