@@ -27,4 +27,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    contactForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const btn = contactForm.querySelector(".submit-button");
+      if (!btn) return;
+      const original = btn.textContent;
+      btn.textContent = "Sending…";
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.textContent = "Message Sent!";
+        contactForm.reset();
+
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.disabled = false;
+        }, 1000);
+      }, 1000);
+    });
+  }
 });
