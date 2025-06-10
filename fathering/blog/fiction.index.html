@@ -995,7 +995,7 @@
             <p style="font-size: 1.2rem; color: var(--primary); margin-bottom: 2rem;">
                 Be the first to read excerpts, character sketches, and world-building insights as the series develops.
             </p>
-            <form class="newsletter-form">
+            <form class="newsletter-form" action="/.netlify/functions/contact" method="POST">
                 <input type="email" class="newsletter-input" placeholder="Enter your email for fiction updates" required>
                 <button type="submit" class="newsletter-btn">
                     <i class="fas fa-magic"></i> Join Chronicles
@@ -1096,25 +1096,35 @@
         });
 
         // Newsletter form
-        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+        document.querySelector('.newsletter-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const button = this.querySelector('.newsletter-btn');
             const originalText = button.innerHTML;
-            
+
             button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Joining...';
             button.disabled = true;
-            
-            setTimeout(() => {
+
+            try {
+                await fetch('/.netlify/functions/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: this.querySelector('.newsletter-input').value })
+                });
+
                 button.innerHTML = '<i class="fas fa-check"></i> Welcome to Chronicles!';
                 button.style.background = '#27ae60';
-                
+
                 setTimeout(() => {
                     button.innerHTML = originalText;
                     button.style.background = '';
                     button.disabled = false;
                     this.querySelector('.newsletter-input').value = '';
                 }, 2500);
-            }, 1500);
+            } catch (err) {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                console.error(err);
+            }
         });
 
         // Enhanced hover effects for character cards
