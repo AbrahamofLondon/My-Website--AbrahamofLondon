@@ -98,6 +98,11 @@ abraham-of-london/
 The project uses Jest for testing with jsdom for DOM manipulation testing.
 
 ### Running Tests
+Before running tests, install all development dependencies (including Jest):
+```bash
+npm install
+```
+
 ```bash
 # Run all tests
 npm test
