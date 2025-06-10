@@ -10,6 +10,7 @@ A sophisticated, modern website showcasing Abraham of London's expertise as a vi
 - **Video Integration** - Custom video player interface for fathering content
 - **Contact Forms** - Functional contact and newsletter subscription forms
 - **SEO Optimized** - Proper meta tags, semantic HTML, and accessibility features
+- **Structured Data** - JSON-LD markup for organization and author details
 
 ## 🚀 Quick Start
 
