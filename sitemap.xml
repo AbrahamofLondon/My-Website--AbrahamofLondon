@@ -12,4 +12,20 @@
     <loc>https://abrahamoflondon.netlify.app/memoir.html</loc>
     <priority>0.85</priority>
   </url>
+  <url>
+    <loc>https://abrahamoflondon.netlify.app/fathering/memoir.index.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://abrahamoflondon.netlify.app/fathering/blog/index.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://abrahamoflondon.netlify.app/fathering/blog/fiction.index.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://abrahamoflondon.netlify.app/fathering/Fictional-Romance/index.html</loc>
+    <priority>0.80</priority>
+  </url>
 </urlset>
