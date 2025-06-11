@@ -7,6 +7,22 @@ document.addEventListener("DOMContentLoaded", () => {
     yearEl.textContent = new Date().getFullYear();
   }
 
+  const loadingEl = document.getElementById("loading");
+  if (loadingEl) {
+    window.addEventListener("load", () => {
+      loadingEl.classList.add("hide");
+    });
+  }
+
+  const progressBar = document.getElementById("scrollProgress");
+  if (progressBar) {
+    document.addEventListener("scroll", () => {
+      const max = document.body.scrollHeight - window.innerHeight;
+      const percent = (window.scrollY / max) * 100;
+      progressBar.style.width = `${percent}%`;
+    });
+  }
+
   // Smooth scrolling for internal anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", function (e) {
