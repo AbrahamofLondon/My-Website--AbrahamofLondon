@@ -3,6 +3,7 @@
 # Abraham of London - Secure WordPress Deployment Script
 # This script sets up a WordPress environment using Docker with secure credentials
 
+# WARNING: This script installs software and modifies Docker and system directories. Use with caution and review the code before running.
 set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
 # Colors for output

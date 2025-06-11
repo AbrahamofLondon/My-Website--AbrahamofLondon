@@ -2,6 +2,7 @@
 # AbrahamofLondon Superbrand Website Deployment Script
 # This script automates the setup and deployment of the AbrahamofLondon website
 
+# WARNING: This script installs software and modifies Docker and system directories. Use with caution on production machines.
 set -e
 
 echo "=== AbrahamofLondon Website Deployment Script ==="
