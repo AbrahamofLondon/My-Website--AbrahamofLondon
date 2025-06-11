@@ -1,254 +1,836 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Memoir: Fathering Without Fear | Abraham of London</title>
-
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css" />
-  <!-- You already have great SCSS-like structure; consider migrating to external `styles.css` or `memoir.css` for maintainability -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memoir: Fathering Without Fear | Abraham of London</title>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #c9b037;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f8f8f8;
+            --white: #fff;
+            --shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--white);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Cross-Site Navigation */
+        .cross-site-nav {
+            background: var(--bg-light);
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .cross-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .site-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .site-breadcrumb a {
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .site-breadcrumb a:hover {
+            color: var(--accent-color);
+        }
+        
+        .site-breadcrumb i {
+            font-size: 0.75rem;
+            color: #999;
+        }
+        
+        /* Main Navigation */
+        .navbar {
+            background: var(--primary-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .memoir-hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: var(--white);
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memoir-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,%3Csvg width="100" height="100" xmlns="http://www.w3.org/2000/svg"%3E%3Cdefs%3E%3Cpattern id="a" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"%3E%3Cpath d="M0 0h100v100H0z" fill="none"/%3E%3Cpath d="M0 0l50 50-50 50M50 0l50 50-50 50" stroke="%23ffffff" stroke-width="0.5" opacity="0.05"/%3E%3C/pattern%3E%3C/defs%3E%3Crect width="100%25" height="100%25" fill="url(%23a)"/%3E%3C/svg%3E');
+        }
+        
+        .memoir-hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .memoir-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+        
+        .memoir-subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Memoir Overview */
+        .memoir-overview {
+            padding: 5rem 0;
+            background: var(--bg-light);
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .book-cover-large {
+            background: var(--primary-color);
+            aspect-ratio: 3/4;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .book-cover-large::before {
+            content: '';
+            position: absolute;
+            inset: 20px;
+            border: 2px solid var(--accent-color);
+            border-radius: 5px;
+        }
+        
+        .cover-text {
+            text-align: center;
+            color: var(--white);
+            z-index: 1;
+            padding: 2rem;
+        }
+        
+        .cover-text div {
+            font-size: 1.5rem;
+            letter-spacing: 3px;
+            line-height: 1.8;
+        }
+        
+        .memoir-details h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        
+        .memoir-details p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .memoir-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        
+        .stat-label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+        
+        /* Chapter Previews */
+        .chapters-preview {
+            padding: 5rem 0;
+        }
+        
+        .chapters-preview h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .chapter-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-top: 4px solid var(--accent-color);
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .chapter-number {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .chapter-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+        
+        .chapter-excerpt {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* Progress Section */
+        .progress-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: var(--white);
+            position: relative;
+        }
+        
+        .progress-content {
+            text-align: center;
+        }
+        
+        .progress-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        
+        .progress-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto 3rem;
+            max-width: 600px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '65%';
+            position: absolute;
+            right: -40px;
+            top: -30px;
+            background: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .milestones {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .milestone {
+            text-align: center;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+        
+        .milestone.completed {
+            opacity: 1;
+        }
+        
+        .milestone i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .milestone h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+        
+        .milestone p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Email Updates */
+        .email-updates {
+            padding: 5rem 0;
+            background: var(--bg-light);
+            text-align: center;
+        }
+        
+        .email-updates h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        
+        .email-updates .memoir-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+        
+        .email-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .email-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .email-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        
+        .subscribe-btn {
+            padding: 1rem 2rem;
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .subscribe-btn:hover {
+            background: #a07929;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(201, 176, 55, 0.3);
+        }
+        
+        .subscribe-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 3rem 0 1rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+        
+        .footer-section p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .overview-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .book-cover-large {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            
+            .memoir-stats {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .memoir-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .memoir-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .email-form {
+                flex-direction: column;
+            }
+            
+            .subscribe-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .milestones {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <!-- Cross-Site Navigation -->
-  <nav class="cross-site-nav">
-    <div class="cross-nav-container">
-      <div class="site-breadcrumb">
-        <a href="/"><i class="fas fa-home"></i> Abraham of London</a>
-        <i class="fas fa-chevron-right"></i>
-        <a href="/fathering">Fathering</a>
-        <i class="fas fa-chevron-right"></i>
-        <span>Memoir</span>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main Navigation -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="/fathering" class="logo">Fathering Without Fear</a>
-      <ul class="nav-links">
-        <li><a href="/fathering">Home</a></li>
-        <li><a href="/fathering/memoir" class="active">Memoir</a></li>
-        <li><a href="/fathering/fiction">Fiction</a></li>
-        <li><a href="/fathering/blog">Blog</a></li>
-        <li><a href="/fathering/community">Community</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="memoir-hero">
-    <div class="memoir-hero-content">
-      <h1>Fathering Without Fear</h1>
-      <p class="memoir-subtitle">A Memoir of Breaking Generational Patterns</p>
-      <div class="status-badge">
-        <i class="fas fa-edit"></i> In Progress - 65% Complete
-      </div>
-    </div>
-  </section>
-
-  <!-- Memoir Overview -->
-  <section class="memoir-overview">
-    <div class="container">
-      <div class="overview-grid">
-        <div class="book-cover-large">
-          <div class="cover-text">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">📖</div>
-            <div>FATHERING</div>
-            <div>WITHOUT FEAR</div>
-            <div style="font-size: 1rem; margin-top: 1rem; opacity: 0.8;">A Memoir</div>
-          </div>
+    <!-- Cross-Site Navigation -->
+    <nav class="cross-site-nav">
+        <div class="cross-nav-container">
+            <div class="site-breadcrumb">
+                <a href="/"><i class="fas fa-home"></i> Abraham of London</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="/fathering">Fathering</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Memoir</span>
+            </div>
         </div>
-        <div class="memoir-details">
-          <h2>The Story Behind the Story</h2>
-          <p>
-            What began as research into how Abraham of London's journey became a deeply personal exploration of family patterns, generational trauma, and the courage required to break cycles that have persisted for centuries.
-          </p>
-          <p>
-            This memoir chronicles the journey from a childhood marked by silence and fear of not living up to the father I had—authentic, present, and unafraid of truth. It's about discovering that the same courage that drove Abraham across unknown oceans lives within us today.
-          </p>
-          <div class="memoir-stats">
-            <div class="stat-item"><span class="stat-number">12</span><span class="stat-label">Chapters</span></div>
-            <div class="stat-item"><span class="stat-number">8</span><span class="stat-label">Completed</span></div>
-            <div class="stat-item"><span class="stat-number">2024</span><span class="stat-label">Target Release</span></div>
-          </div>
+    </nav>
+    
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/fathering" class="logo">Fathering Without Fear</a>
+            <ul class="nav-links">
+                <li><a href="/fathering">Home</a></li>
+                <li><a href="/fathering/memoir" class="active">Memoir</a></li>
+                <li><a href="/fathering/fiction">Fiction</a></li>
+                <li><a href="/fathering/blog">Blog</a></li>
+                <li><a href="/fathering/community">Community</a></li>
+            </ul>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Chapter Previews -->
-  <section class="chapters-preview">
-    <div class="container">
-      <h2>Chapter Previews</h2>
-      <div class="chapters-grid">
-        <!-- Card -->
-        <div class="chapter-card">
-          <div class="chapter-number">Chapter 1</div>
-          <h3 class="chapter-title">The Weight of Silence</h3>
-          <p class="chapter-excerpt">
-            Growing up in a house where emotions were seen as weak and not all questions answered...
-          </p>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="memoir-hero">
+        <div class="memoir-hero-content">
+            <h1>Fathering Without Fear</h1>
+            <p class="memoir-subtitle">A Memoir of Breaking Generational Patterns</p>
+            <div class="status-badge">
+                <i class="fas fa-edit"></i> In Progress - 65% Complete
+            </div>
         </div>
-        <div class="chapter-card">
-          <div class="chapter-number">Chapter 3</div>
-          <h3 class="chapter-title">Abraham's Echo</h3>
-          <p class="chapter-excerpt">
-            Realizing that my ancestor's courage was the same I needed to cross emotional distances...
-          </p>
+    </section>
+    
+    <!-- Memoir Overview -->
+    <section class="memoir-overview">
+        <div class="container">
+            <div class="overview-grid">
+                <div class="book-cover-large">
+                    <div class="cover-text">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📖</div>
+                        <div>FATHERING</div>
+                        <div>WITHOUT FEAR</div>
+                        <div style="font-size: 1rem; margin-top: 1rem; opacity: 0.8;">A Memoir</div>
+                    </div>
+                </div>
+                <div class="memoir-details">
+                    <h2>The Story Behind the Story</h2>
+                    <p>
+                        What began as research into how Abraham of London's journey became a deeply personal exploration of family patterns, generational trauma, and the courage required to break cycles that have persisted for centuries.
+                    </p>
+                    <p>
+                        This memoir chronicles the journey from a childhood marked by silence and fear of not living up to the father I had—authentic, present, and unafraid of truth. It's about discovering that the same courage that drove Abraham across unknown oceans lives within us today.
+                    </p>
+                    <div class="memoir-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">12</span>
+                            <span class="stat-label">Chapters</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2024</span>
+                            <span class="stat-label">Target Release</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="chapter-card">
-          <div class="chapter-number">Chapter 7</div>
-          <h3 class="chapter-title">Breaking the Pattern</h3>
-          <p class="chapter-excerpt">
-            Choosing to parent differently—to show emotion where there had been stone...
-          </p>
+    </section>
+    
+    <!-- Chapter Previews -->
+    <section class="chapters-preview">
+        <div class="container">
+            <h2>Chapter Previews</h2>
+            <div class="chapters-grid">
+                <div class="chapter-card">
+                    <div class="chapter-number">Chapter 1</div>
+                    <h3 class="chapter-title">The Weight of Silence</h3>
+                    <p class="chapter-excerpt">
+                        Growing up in a house where emotions were seen as weak and not all questions answered...
+                    </p>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">Chapter 3</div>
+                    <h3 class="chapter-title">Abraham's Echo</h3>
+                    <p class="chapter-excerpt">
+                        Realizing that my ancestor's courage was the same I needed to cross emotional distances...
+                    </p>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">Chapter 7</div>
+                    <h3 class="chapter-title">Breaking the Pattern</h3>
+                    <p class="chapter-excerpt">
+                        Choosing to parent differently—to show emotion where there had been stone...
+                    </p>
+                </div>
+                <div class="chapter-card">
+                    <div class="chapter-number">Chapter 10</div>
+                    <h3 class="chapter-title">The New Legacy</h3>
+                    <p class="chapter-excerpt">
+                        What it means to father without fear—naming fear and owning it...
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="chapter-card">
-          <div class="chapter-number">Chapter 10</div>
-          <h3 class="chapter-title">The New Legacy</h3>
-          <p class="chapter-excerpt">
-            What it means to father without fear—naming fear and owning it...
-          </p>
+    </section>
+    
+    <!-- Progress Section -->
+    <section class="progress-section">
+        <div class="container">
+            <div class="progress-content">
+                <h2>Writing Progress</h2>
+                <p>Follow along as this deeply personal story takes shape.</p>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="milestones">
+                    <div class="milestone completed">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>Outline Complete</h4>
+                        <p>✓ coming soon...</p>
+                    </div>
+                    <div class="milestone completed">
+                        <i class="fas fa-check-circle"></i>
+                        <h4>First Draft</h4>
+                        <p>✓ 8 of 24 chapters</p>
+                    </div>
+                    <div class="milestone">
+                        <i class="fas fa-clock"></i>
+                        <h4>Beta Readers</h4>
+                        <p>soon</p>
+                    </div>
+                    <div class="milestone">
+                        <i class="fas fa-star"></i>
+                        <h4>Publication</h4>
+                        <p>soon</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Progress Section -->
-  <section class="progress-section">
-    <div class="container">
-      <div class="progress-content">
-        <h2>Writing Progress</h2>
-        <p>Follow along as this deeply personal story takes shape.</p>
-        <div class="progress-bar">
-          <div class="progress-fill"></div>
+    </section>
+    
+    <!-- Email Signup -->
+    <section class="email-updates">
+        <div class="container">
+            <h2>Stay Updated</h2>
+            <p class="memoir-subtitle">
+                Be the first to read new chapters and get exclusive insights.
+            </p>
+            <form class="email-form">
+                <input type="email" class="email-input" placeholder="Enter your email" required>
+                <button type="submit" class="subscribe-btn">
+                    <i class="fas fa-bell"></i> Get Updates
+                </button>
+            </form>
         </div>
-        <div class="milestones">
-          <div class="milestone completed">
-            <i class="fas fa-check-circle"></i>
-            <h4>Outline Complete</h4>
-            <p>✓ coming soon... </p>
-          </div>
-          <div class="milestone completed">
-            <i class="fas fa-check-circle"></i>
-            <h4>First Draft</h4>
-            <p>✓ 8 of 24 chapters</p>
-          </div>
-          <div class="milestone">
-            <i class="fas fa-clock"></i>
-            <h4>Beta Readers</h4>
-            <p>soon</p>
-          </div>
-          <div class="milestone">
-            <i class="fas fa-star"></i>
-            <h4>Publication</h4>
-            <p>soon</p>
-          </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Memoir Project</h3>
+                    <p>Breaking generational cycles through truth and courage.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/fathering">Fathering Home</a></li>
+                        <li><a href="/fathering/blog">Blog & Insights</a></li>
+                        <li><a href="/fathering/community">Community</a></li>
+                        <li><a href="/">Historical Research</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@abrahamoflondon.org">Email</a></li>
+                        <li><a href="#">Speaking Inquiries</a></li>
+                        <li><a href="#">Beta Reader Program</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Abraham of London. All rights reserved.</p>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Email Signup -->
-  <section class="email-updates">
-    <div class="container">
-      <h2>Stay Updated</h2>
-      <p class="memoir-subtitle">
-        Be the first to read new chapters and get exclusive insights.
-      </p>
-      <form class="email-form">
-        <input type="email" class="email-input" placeholder="Enter your email" required />
-        <button type="submit" class="subscribe-btn">
-          <i class="fas fa-bell"></i> Get Updates
-        </button>
-      </form>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Memoir Project</h3>
-          <p>Breaking generational cycles through truth and courage.</p>
-        </div>
-        <div class="footer-section">
-          <h3>Quick Links</h3>
-          <ul class="footer-links">
-            <li><a href="/fathering">Fathering Home</a></li>
-            <li><a href="/fathering/blog">Blog & Insights</a></li>
-            <li><a href="/fathering/community">Community</a></li>
-            <li><a href="/">Historical Research</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3>Connect</h3>
-          <ul class="footer-links">
-            <li><a href="mailto:info@abrahamoflondon.org">Email</a></li>
-            <li><a href="#">Speaking Inquiries</a></li>
-            <li><a href="#">Beta Reader Program</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 Abraham of London. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script>
-    // Progress bar animation
-    window.addEventListener('load', () => {
-      const bar = document.querySelector('.progress-fill');
-      bar.style.width = '0%';
-      setTimeout(() => {
-        bar.style.transition = 'width 2s ease-out';
-        bar.style.width = '65%';
-      }, 500);
-    });
-
-    // Chapter card hover
-    document.querySelectorAll('.chapter-card').forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px) scale(1.02)';
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0) scale(1)';
-      });
-    });
-
-    // Email form submission
-    document.querySelector('.email-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const btn = this.querySelector('.subscribe-btn');
-      const original = btn.innerHTML;
-
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
-      btn.disabled = true;
-
-      setTimeout(() => {
-        btn.innerHTML = '<i class="fas fa-check"></i> Subscribed!';
-        btn.style.background = '#27ae60';
-
-        setTimeout(() => {
-          btn.innerHTML = original;
-          btn.style.background = '';
-          btn.disabled = false;
-          this.querySelector('.email-input').value = '';
-        }, 2000);
-      }, 1500);
-    });
-  </script>
+    </footer>
+    
+    <!-- Scripts -->
+    <script>
+        // Progress bar animation
+        window.addEventListener('load', () => {
+            const bar = document.querySelector('.progress-fill');
+            if (bar) {
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.transition = 'width 2s ease-out';
+                    bar.style.width = '65%';
+                }, 500);
+            }
+        });
+        
+        // Chapter card hover effects
+        document.querySelectorAll('.chapter-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // Email form submission
+        const emailForm = document.querySelector('.email-form');
+        if (emailForm) {
+            emailForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const btn = this.querySelector('.subscribe-btn');
+                const original = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Subscribing...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check"></i> Subscribed!';
+                    btn.style.background = '#27ae60';
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = original;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                        this.querySelector('.email-input').value = '';
+                    }, 2000);
+                }, 1500);
+            });
+        }
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
