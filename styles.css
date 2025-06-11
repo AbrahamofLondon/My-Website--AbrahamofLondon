@@ -152,6 +152,28 @@ p {
   margin-bottom: var(--spacing-sm);
 }
 
+/* Logo and Icon Grids */
+.logos-grid,
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: var(--spacing-md);
+  justify-items: center;
+}
+
+.company-logo,
+.icons-grid img {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.company-logo.visible,
+.icons-grid img.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Footer */
 .footer {
   background-color: var(--color-navy);
