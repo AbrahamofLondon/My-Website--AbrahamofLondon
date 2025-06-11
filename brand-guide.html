@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abraham of London Brand Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="navbar" class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="nav-container">
+        <a href="index.html#home" class="logo" aria-label="Abraham of London - Home">Abraham of London</a>
+        <ul id="navMenu" class="nav-menu" role="menubar">
+          <li><a href="index.html#home" class="nav-link" role="menuitem">Home</a></li>
+          <li><a href="index.html#about" class="nav-link" role="menuitem">About</a></li>
+          <li><a href="index.html#ventures" class="nav-link" role="menuitem">Ventures</a></li>
+          <li><a href="index.html#creative" class="nav-link" role="menuitem">Creative Works</a></li>
+          <li><a href="index.html#contact" class="nav-link" role="menuitem">Contact</a></li>
+          <li><a href="brand-guide.html" class="nav-link active" role="menuitem">Brand Guide</a></li>
+        </ul>
+        <button id="navToggle" class="nav-toggle" aria-expanded="false" aria-controls="navMenu" aria-label="Toggle navigation menu">
+          <span class="hamburger"></span>
+          <span class="hamburger"></span>
+          <span class="hamburger"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero">
+      <img src="assets/images/banner.webp" alt="Brand banner" class="hero-bg">
+      <div class="hero-content container">
+        <h1>Brand Guide</h1>
+        <p class="tagline">Visual identity &amp; assets</p>
+      </div>
+    </header>
+
+    <section class="section container">
+      <h2>Logos</h2>
+      <div class="grid-3">
+        <div class="card"><img src="assets/images/alomarada-logo.svg" alt="Alomarada Logo" class="venture-icon" loading="lazy"></div>
+        <div class="card"><img src="assets/images/endureluxe-icon.webp" alt="Endureluxe Logo" class="venture-icon" loading="lazy"></div>
+        <div class="card"><img src="assets/images/fwf-badge.svg" alt="Fathering Without Fear Logo" class="venture-icon" loading="lazy"></div>
+      </div>
+    </section>
+
+    <section class="section-light container">
+      <h2>Colors</h2>
+      <div class="grid-3">
+        <div class="card" style="background-color:#091c3b;color:#fff">Navy #091c3b</div>
+        <div class="card" style="background-color:#b29e67;color:#fff">Gold #b29e67</div>
+        <div class="card" style="background-color:#f4efe5;color:#000">Cream #f4efe5</div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <h2>Typography</h2>
+      <p>The brand uses <strong>Playfair Display</strong> for headings and <strong>Inter</strong> for body text.</p>
+    </section>
+
+    <section class="section-light container downloads">
+      <h2>Assets</h2>
+      <a href="#" class="btn">Download Logos</a>
+      <a href="#" class="btn-outline">Download Icons</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> Abraham of London. Built with purpose.</p>
+    </div>
+  </footer>
+
+  <script src="scripts.js" defer></script>
+</body>
+</html>
