@@ -4,6 +4,30 @@
 
 set -e
 
+# Required environment variables
+#   MYSQL_ROOT_PASSWORD  - Password for the MySQL root user
+#   MYSQL_PASSWORD       - Password for the WordPress database user
+#
+# Optional environment variables
+#   MYSQL_DATABASE       - Name of the WordPress database (default: wordpress)
+#   MYSQL_USER           - WordPress database user (default: wordpress)
+#   WORDPRESS_DB_HOST    - Database host (default: db:3306)
+#   WORDPRESS_DB_NAME    - WordPress database name (default: \$MYSQL_DATABASE)
+#   WORDPRESS_DB_USER    - WordPress database user (default: \$MYSQL_USER)
+#   WORDPRESS_DB_PASSWORD - WordPress database password (default: \$MYSQL_PASSWORD)
+
+# Ensure required variables are set
+: "${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}"
+: "${MYSQL_PASSWORD:?MYSQL_PASSWORD is required}"
+
+# Apply defaults
+MYSQL_DATABASE="${MYSQL_DATABASE:-wordpress}"
+MYSQL_USER="${MYSQL_USER:-wordpress}"
+WORDPRESS_DB_HOST="${WORDPRESS_DB_HOST:-db:3306}"
+WORDPRESS_DB_NAME="${WORDPRESS_DB_NAME:-$MYSQL_DATABASE}"
+WORDPRESS_DB_USER="${WORDPRESS_DB_USER:-$MYSQL_USER}"
+WORDPRESS_DB_PASSWORD="${WORDPRESS_DB_PASSWORD:-$MYSQL_PASSWORD}"
+
 echo "=== AbrahamofLondon Website Deployment Script ==="
 echo "This script will set up a complete WordPress installation with all necessary plugins,"
 echo "themes, and configurations for the AbrahamofLondon superbrand website."
@@ -31,7 +55,7 @@ mkdir -p abrahamoflondon
 cd abrahamoflondon
 
 # Create docker-compose.yml
-cat > docker-compose.yml << 'EOF'
+cat > docker-compose.yml << EOF
 version: '3'
 
 services:
@@ -41,10 +65,10 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: wordpress_db_password
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - wordpress_network
 
@@ -61,10 +85,10 @@ services:
       - ./custom-plugins:/var/www/html/wp-content/plugins
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress_password
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_MEMORY_LIMIT', '256M');
         define('WP_MAX_MEMORY_LIMIT', '512M');
@@ -80,7 +104,7 @@ services:
       - '8080:80'
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: wordpress_db_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - wordpress_network
 
