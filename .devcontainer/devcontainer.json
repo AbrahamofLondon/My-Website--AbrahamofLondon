@@ -1,0 +1,25 @@
+{
+    "name": "Node18 Devcontainer",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "esbenp.prettier-vscode",
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.eslint": true
+                }
+            },
+            "extensions": [
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint",
+                "github.vscode-pull-request-github",
+                "github.copilot"
+            ]
+        }
+    },
+    "postCreateCommand": "npm install",
+    "forwardPorts": [3000]
+}
