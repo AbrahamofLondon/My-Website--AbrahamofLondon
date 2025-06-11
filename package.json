@@ -4,7 +4,8 @@
   "description": "",
   "main": "scripts.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "npm test"
   },
   "keywords": [],
   "author": "",
