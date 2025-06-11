@@ -1,0 +1,4 @@
+<svg width="80" height="80" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="40,5 75,75 5,75" fill="#091c3b"/>
+  <text x="40" y="60" font-size="30" text-anchor="middle" fill="#b29e67" font-family="Arial">F</text>
+</svg>
