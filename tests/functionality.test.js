@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 // Main website functionality tests for Abraham of London
 
 describe('Abraham of London Website', () => {
