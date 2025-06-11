@@ -1,21 +1,13 @@
 {
-  "name": "my-website--abrahamoflondon",
+  "name": "abrahamoflondon",
   "version": "1.0.0",
-  "description": "",
-  "main": "scripts.js",
+  "type": "module",
   "scripts": {
-    "start": "serve -s . -l 3000",
-    "json"test": "echo \"Tests passing\" && exit 0",
+    "test": "jest",
     "lint": "eslint ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "devDependencies": {
     "jest": "^29.7.0",
-    "jsdom": "^22.1.0",
-    "eslint": "^8.56.0",
-    "prettier": "^3.2.5"
+    "eslint": "^8.55.0"
   }
 }
