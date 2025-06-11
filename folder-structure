@@ -1,5 +1,6 @@
 your-site/
 ├── index.html                 ✅ (Main Abraham of London site)
+├── portfolio.html             ✅ (Portfolio page)
 ├── styles.css                 ✅ (Site styles)
 ├── scripts.js                 ✅ (JavaScript logic)
 ├── fathering/
