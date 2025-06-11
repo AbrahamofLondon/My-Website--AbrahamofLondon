@@ -9,6 +9,10 @@ echo "This script will set up a complete WordPress installation with all necessa
 echo "themes, and configurations for the AbrahamofLondon superbrand website."
 echo ""
 
+# Ensure required environment variables are set
+: "${MYSQL_ROOT_PASSWORD:?Environment variable MYSQL_ROOT_PASSWORD must be set}"
+: "${WORDPRESS_DB_PASSWORD:?Environment variable WORDPRESS_DB_PASSWORD must be set}"
+
 # Check if Docker is installed
 if ! command -v docker &> /dev/null; then
     echo "Docker is not installed. Installing Docker..."
@@ -41,10 +45,10 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: wordpress_db_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress_password
+      MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
     networks:
       - wordpress_network
 
@@ -63,7 +67,7 @@ services:
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress_password
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       WORDPRESS_DB_NAME: wordpress
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_MEMORY_LIMIT', '256M');
@@ -80,7 +84,7 @@ services:
       - '8080:80'
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: wordpress_db_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - wordpress_network
 
