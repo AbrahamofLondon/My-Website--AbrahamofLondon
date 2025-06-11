@@ -1,24 +1,22 @@
-name: Run Tests
+name: Test and Lint Offline
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        
-    - name: Run a simple test
-      run: |
-        echo "Tests would run here"
-        echo "Workflow is working!"
+    - uses: actions/checkout@v3
+
+    - name: Extract offline dependencies
+      run: unzip -o offline-node-modules.tar.gz.zip && chmod +x node_modules/.bin/*
+
+    - name: Lint code
+      run: npx eslint .
+
+    - name: Run tests
+      run: npx jest --ci
