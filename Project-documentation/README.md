@@ -1,4 +1,4 @@
-# Abraham of London - Personal Website
+# Abraham of London Website Documentation
 
 A sophisticated, modern website showcasing Abraham of London's expertise as a visionary strategist, author, and thought leader. Features a dark theme with gold accents, responsive design, and comprehensive sections covering business ventures and fathering insights.
 
