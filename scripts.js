@@ -1,25 +1,25 @@
 "use strict";
 
-// Dynamically update the footer year and enable smooth scrolling for internal links
-document.addEventListener("DOMContentLoaded", () => {
-  const yearEl = document.getElementById("year");
+// Core DOM interaction logic extracted into a reusable function.
+function initialize (doc = document, win = window) {
+  const yearEl = doc.getElementById("year");
   if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
+    yearEl.textContent = String(new Date().getFullYear());
   }
 
   // Smooth scrolling for internal anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  doc.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", function (e) {
       const targetId = this.getAttribute("href");
 
       if (targetId && targetId !== "#") {
-        const target = document.querySelector(targetId);
+        const target = doc.querySelector(targetId);
         if (target) {
           e.preventDefault();
           const offset = 60; // Adjust based on your fixed header height
-          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          const top = target.getBoundingClientRect().top + (win.scrollY || 0) - offset;
 
-          window.scrollTo({
+          win.scrollTo({
             top,
             behavior: "smooth"
           });
@@ -27,4 +27,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-});
+}
+
+module.exports = { initialize };
+
+// Automatically initialise when running in a browser environment
+if (typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => initialize());
+  } else {
+    initialize();
+  }
+}
