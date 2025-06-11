@@ -151,6 +151,12 @@ p {
   max-height: 80px;
   margin-bottom: var(--spacing-sm);
 }
+.logo img {
+  height: 40px;
+  display: block;
+  padding: var(--spacing-sm) 0;
+}
+
 
 /* Footer */
 .footer {
