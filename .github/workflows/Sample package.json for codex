@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.3.1",
+    "serve": "^14.2.0"
+  }
+}
