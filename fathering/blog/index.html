@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog & Insights | Fathering Without Fear</title>
+    <title>Blog &amp; Insights | Fathering Without Fear</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -30,7 +30,7 @@
             font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            overflow-x: hidden;
+            background: var(--accent);
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -99,4 +99,161 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--secondary);
-            text-decoration:
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--secondary);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .blog-hero {
+            height: 60vh;
+            background: linear-gradient(135deg, rgba(34,56,67,0.8), rgba(34,56,67,0.5)), url('https://picsum.photos/1200/800?image=1069');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 80px;
+        }
+
+        .posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .post-card {
+            background: var(--text-light);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .post-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .post-content {
+            padding: 1rem;
+        }
+
+        .post-content h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background: var(--neutral-dark);
+            color: var(--text-light);
+            padding: 2rem 0;
+        }
+
+        .footer p {
+            text-align: center;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cross-Site Navigation -->
+    <nav class="cross-site-nav">
+        <div class="cross-nav-container">
+            <div class="site-breadcrumb">
+                <a href="/"><i class="fas fa-home"></i> Abraham of London</a>
+                <i class="fas fa-chevron-right"></i>
+                <a href="/fathering">Fathering Without Fear</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Blog</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/fathering" class="logo">Fathering Without Fear</a>
+            <ul class="nav-links">
+                <li><a href="/fathering">Home</a></li>
+                <li><a href="/fathering/memoir">Memoir</a></li>
+                <li><a href="/fathering/blog" class="active">Blog</a></li>
+                <li><a href="/fathering/fiction">Fiction</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="blog-hero">
+        <div class="container">
+            <h1>Blog &amp; Insights</h1>
+            <p>Exploring the journey of courageous fatherhood.</p>
+        </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="container">
+        <div class="posts">
+            <article class="post-card">
+                <img src="https://picsum.photos/400/200?image=1050" alt="Post 1">
+                <div class="post-content">
+                    <h3>Building a Legacy of Courage</h3>
+                    <p>Discover practical tips to inspire bravery in everyday parenting.</p>
+                </div>
+            </article>
+            <article class="post-card">
+                <img src="https://picsum.photos/400/200?image=1043" alt="Post 2">
+                <div class="post-content">
+                    <h3>The Power of Storytelling</h3>
+                    <p>How sharing personal stories can strengthen family bonds.</p>
+                </div>
+            </article>
+            <article class="post-card">
+                <img src="https://picsum.photos/400/200?image=1031" alt="Post 3">
+                <div class="post-content">
+                    <h3>Navigating Challenges Together</h3>
+                    <p>Strategies for overcoming obstacles and supporting your children.</p>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="year"></span> Abraham of London. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/scripts.js"></script>
+</body>
+</html>
