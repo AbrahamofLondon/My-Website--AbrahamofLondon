@@ -4,6 +4,12 @@
 
 set -e
 
+# Load credentials from environment variables or fall back to safe defaults
+DB_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD:-wordpress_db_password}"
+DB_NAME="${WORDPRESS_DB_NAME:-wordpress}"
+DB_USER="${WORDPRESS_DB_USER:-wordpress}"
+DB_PASSWORD="${WORDPRESS_DB_PASSWORD:-wordpress_password}"
+
 echo "=== AbrahamofLondon Website Deployment Script ==="
 echo "This script will set up a complete WordPress installation with all necessary plugins,"
 echo "themes, and configurations for the AbrahamofLondon superbrand website."
@@ -31,7 +37,7 @@ mkdir -p abrahamoflondon
 cd abrahamoflondon
 
 # Create docker-compose.yml
-cat > docker-compose.yml << 'EOF'
+cat > docker-compose.yml <<EOF
 version: '3'
 
 services:
@@ -41,10 +47,10 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: wordpress_db_password
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress_password
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     networks:
       - wordpress_network
 
@@ -62,9 +68,9 @@ services:
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress_password
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_NAME}
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_MEMORY_LIMIT', '256M');
         define('WP_MAX_MEMORY_LIMIT', '512M');
@@ -80,7 +86,7 @@ services:
       - '8080:80'
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: wordpress_db_password
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     networks:
       - wordpress_network
 
