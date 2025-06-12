@@ -1,0 +1,24 @@
+name: Lint & Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Unpack node_modules
+        run: |
+          tar -xzf offline-node-modules.tar.gz
+          chmod +x node_modules/.bin/*
+
+      - name: Run ESLint
+        run: npx eslint .
+
+      - name: Run Tests
+        run: npx jest --ci --reporters=default --reporters=jest-junit
